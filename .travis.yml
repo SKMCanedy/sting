@@ -1,9 +1,9 @@
 language: node_js
 node_js: node
-deploy: tranquil-headland-61194
+deploy: 
   provider: heroku
   api_key:
     secure: KuQXoMY6WBpVToFfwHzdOk/6HNuhm47x/jjBQCaZ7oguS5fRGmMvcx74NqidehLJWbuWiHMBppVNwlVaQnHBR6qMK53VDkWybPvMHc/E/x4+Kirht2FiPDfoKiPKLJKsFB0F80mr+uC9lXoIkDVieJnZ6w5qSP6ImAzahJuYP3tDnuCZoDe1/bsTxJd35RBp6k6ZlO2VnSjZh6HEOBlnTaAqPWKUyLIO2shR55zAMGb0Nfq1QZVDKFan3X7IO9VeuLcLCZQiSG9e779BC/it3aG1ZwGsHHVq9o40EZBuEZyHl+GdyaisdcWedNl29yTVguVrhXcl9XqPGSw/x1uN+/y7esS/m5R7O7HFL1gNfq/qIfpLTVPeQVFksZDSf4ruOPqjzYpBBwalArjbhRhR/1sRZrxnl9gYfdPtsLbJ+gceA61m6pOoyzrkYqv2xOd4jyE93GkMgLRkNx4WUpb6iTzEcNSuSPTRJM11JwQ/bnu62eW/8RywxCggtfAt5DypdM6pIn2YicXLozVQ32Wsq/iCStLzZFk9otwLjlHnmDX8F02Okck93CS0reLPsWFrvBW1VafO9S6Rb6zELSbD8rkjtXq8EuBbAV6pI/ZbrSj9vyrKdiQ4D7XixmUc4wVbbZyX7c0phrPhmvHI0WahKlnxp/mzUYQyQ0odMdaSNtM=
-  app: sting
+  app: tranquil-headland-61194
   on:
     repo: SKMCanedy/sting
