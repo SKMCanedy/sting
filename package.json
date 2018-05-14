@@ -18,9 +18,11 @@
   },
   "homepage": "https://github.com/SKMCanedy/sting#readme",
   "dependencies": {
+    "body-parser": "^1.18.2",
     "chai": "^4.1.2",
     "chai-http": "^4.0.0",
     "express": "^4.16.3",
-    "mocha": "^5.1.1"
+    "mocha": "^5.1.1",
+    "nodemon": "^1.17.4"
   }
 }
