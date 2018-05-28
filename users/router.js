@@ -22,7 +22,7 @@ router.post('/', jsonParser, (req, res) => {
     const result = Joi.validate(userInput, userSchema);
 
     if (result.error) {
-        res.status(400).send(result.error.details[0].message);
+        res.status(400).json({"message": result.error.details[0].message});
         return;
     };
 
