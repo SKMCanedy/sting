@@ -30,8 +30,6 @@ describe("api/user", function() { //why is this singular user?
         return closeServer();
     });
 
-    //should there be a beforeEach here even if it's empty?
-
     afterEach(function() {
         return User.remove({});
     });
