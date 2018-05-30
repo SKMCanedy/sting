@@ -11,6 +11,7 @@ const { router: usersRouter } = require("./users"); //need this explained. is it
 app.use("/api/users/", usersRouter);
 
 
+
 app.use(express.static("public"), function (req,res){
     res.sendStatus(200);
 })

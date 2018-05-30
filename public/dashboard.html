@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Sting - Issue Valuation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+<!-- Bootstrap & FooTable CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" media="screen" href="footable/css/footable.bootstrap.css"/>  
+<!-- Fonts -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+</head>
+<body>
+   <header></header>
+<!-- Nav Bar -->
+    <nav class="navbar my-3">
+        <img src="https://png.icons8.com/metro/100/000000/wasp.png" height="75 rem">
+        <container class="h1 col">Sting</container>
+        <container class ="mx-2"><a href="#add-new-issue" data-toggle="modal"><button type="button" class="btn btn-primary">Add New Issue</button></a></container>
+        <container class ="mx-2"><button type="button" class="btn btn-primary">Log Out</button></container>
+    </nav>
+    <main> 
+<!-- Issue Tracker Table-->
+<container>
+    <table class="table table-hover table-sm ml-1">
+        <thead>
+            <tr>
+            <th scope="col">Issue Ticket Number</th>
+            <th scope="col" data-breakpoints="xs">Issue Summary</th>
+            <th scope="col" data-breakpoints="xs sm md lg">Date Ticket Opened</th>
+            <th scope="col" data-breakpoints="xs">Customer Impact</th>
+            <th scope="col">Weeks Open</th>
+            <th scope="col" data-breakpoints="xs">Incidents per Week</th>
+            <th scope="col" data-breakpoints="xs sm md">Affected Teams</th>
+            <th scope="col" data-breakpoints="xs sm md">Assigned Dev Team</th>
+            <th scope="col" data-breakpoints="xs sm md lg">Weekly Potential Loss</th>
+            <th scope="col" data-breakpoints="xs sm md lg">Weekly Team Cost</th>
+            <th scope="col" data-breakpoints="xs">Weekly Total Cost</th>
+            <th scope="col" data-breakpoints="xs sm md lg">Total Potential Loss</th>
+            <th scope="col" data-breakpoints="xs sm md lg">Total Team Cost</th>
+            <th scope="col">Total Cost Since Reported</th>
+            <th scope="col" data-breakpoints="xs sm md">Entered By</th>
+            <th scope="col" class="px-3" data-breakpoints="xs sm">Actions</th>
+            </tr>
+        </thead>
+<!-- Example Data - Actual data will be loaded by JS -->
+        <tbody>
+            <tr>
+            <td>EXAMPLE-1111</td>
+            <td>really long summary in case there's an example where there's no short way of explaining it otherwise and i need it for an example</td>
+            <td>12/12/2018</td>
+            <td>
+                <p>Impact Area 1</p>
+                <p>Impact Area 2</p>
+            </td>
+            <td>999</td>
+            <td>99999</td>
+            <td>
+                <p>Support Team 1</p>
+                <p>Support Team 2</p>
+            </td>
+            <td>Should be medium length</td>
+            <td>$111111111</td>
+            <td>$222222222</td>
+            <td>$333333333</td>
+            <td>$444444444</td>
+            <td>$555555555</td>
+            <td>$666666666</td>
+            <td>first8ch</td>
+            <td class="text-center"><i class="fas fa-pencil-alt"></i><i class="fas fa-trash-alt ml-3"></i></td>                 
+            </tr>
+            <tr>
+            <td>EXAMPLE-2222</td>
+            <td>medium example of what could be inputted here.</td>
+            <td>12/12/2018</td>
+            <td>
+                <p>Impact Area 1</p>
+                <p>Impact Area 2</p>
+                <p>Impact Area 3</p>
+            </td>
+            <td>999</td>
+            <td>99999</td>
+            <td>
+                <p>Support Team 1</p>
+            </td>
+            <td>Should be medium length</td>
+            <td>$111111111</td>
+            <td>$222222222</td>
+            <td>$333333333</td>
+            <td>$444444444</td>
+            <td>$555555555</td>
+            <td>$666666666</td>
+            <td>first8ch</td>
+            <td class="text-center"><i class="fas fa-pencil-alt"></i><i class="fas fa-trash-alt ml-3"></i></td>                 
+            </tr>
+            <tr>
+            <td>EXAMPLE-3333</td>
+            <td>short example</td>
+            <td>12/12/2018</td>
+            <td>
+                <p>Impact Area 3</p>
+            </td>
+            <td>999</td>
+            <td>99999</td>
+            <td>
+                <p>Support Team 1</p>
+                <p>Support Team 2</p>
+                <p>Support Team 3</p>
+                <p>Support Team 4</p>
+            </td>
+            <td>Should be medium length</td>
+            <td>$111111111</td>
+            <td>$222222222</td>
+            <td>$333333333</td>
+            <td>$444444444</td>
+            <td>$555555555</td>
+            <td>$666666666</td>
+            <td>first8ch</td>
+            <td class="text-center"><i class="fas fa-pencil-alt"></i><i class="fas fa-trash-alt ml-3"></i></td>                 
+            </tr>
+        </tbody>
+        </table>
+</container>
+
+<!-- Modal HTML - better in JS file?-->
+    <div class="modal fade" id="add-new-issue" tabindex="-1" role="dialog" aria-labelledby="addNewIssue" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Add New Issue</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="new-ticket-num" class="font-weight-bold">Ticket Number</label>
+                        <input type="text" class="form-control" id="new-ticket-num" placeholder="New Ticket Number">
+                    </div>
+                    <div class="form-group">
+                        <label for="new-summary"class="font-weight-bold">Issue Summary</label>
+                        <input type="textarea" class="form-control" id="new-summary" placeholder="Summary of issue">
+                    </div>
+                    <div class="form-group">
+                        <fieldset>
+                            <p class="font-weight-bold">Customer Impact</p>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="impactArea1" value="option1">
+                                <label class="form-check-label" for="impactArea1">Impact Area 1</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="impactArea1" value="option2">
+                                <label class="form-check-label" for="impactArea2">Impact Area 2</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="impactArea3" value="option2">
+                                <label class="form-check-label" for="impactArea3">Impact Area 3</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="impactArea4" value="option2">
+                                <label class="form-check-label" for="impactArea4">Impact Area 4</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="impactArea5" value="option2">
+                                <label class="form-check-label" for="impactArea5">Impact Area 5</label>
+                            </div>
+                        </fieldset>
+                    </div>
+                    <div class="form-group">
+                        <label for="new-ticket-date" class="font-weight-bold">Date Ticket Opened</label>
+                        <input type="date" class="form-control" id="new-ticket-date">
+                    </div>
+                    <div class="form-group">
+                        <label for="new-incident-count" class="font-weight-bold">Incidents per Week</label>
+                        <input type="text" class="form-control" id="new-incident-count">
+                    </div>
+                    <div class="form-group">
+                       <fieldset>
+                            <p class="font-weight-bold">Affected Teams</p>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="team1" value="option1">
+                                <label class="form-check-label" for="team1">Support Team 1</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="team2" value="option2">
+                                <label class="form-check-label" for="team2">Support Team 2</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="team3" value="option2">
+                                <label class="form-check-label" for="team3">Support Team 3</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="team4" value="option2">
+                                <label class="form-check-label" for="team4">Support Team 4</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="team5" value="option2">
+                                <label class="form-check-label" for="team5">Support Team 5</label>
+                            </div>
+                        </fieldset>
+                    </div>
+                    <div class="form-group">
+                        <fieldset>
+                            <p class="font-weight-bold">Assigned Dev Team</p>
+                            <select class="custom-select">
+                                <option selected>Choose...</option>
+                                <option value="1">Dev Team 1</option>
+                                <option value="2">Dev Team 2</option>
+                                <option value="3">Dev Team 3</option>
+                                <option value="3">Other</option>
+                                <option value="3">None</option>
+                            </select>
+                        </fieldset>
+                    </div>
+                    <div class="form-group">
+                        <label for="new-weekly-loss" class="font-weight-bold">Weekly Potential Loss</label>
+                        <input type="text" class="form-control" id="new-weekly-loss">
+                    </div>
+                </form>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary">Add Issue</button>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+   </main>
+
+<!-- JS Sources -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="footable/js/footable.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>
