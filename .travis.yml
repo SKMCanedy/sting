@@ -7,3 +7,5 @@ deploy:
   app: tranquil-headland-61194
   on:
     repo: SKMCanedy/sting
+  services:
+  - mongodb
