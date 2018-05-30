@@ -4,7 +4,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const app = express();
 const router = express.Router();
-const { PORT, DATABASE_URL } = require('./config');
+const { PORT, DATABASE_URL, TEST_DATABASE_URL } = require('./config');
 
 const { router: usersRouter } = require("./users"); //need this explained. is it like this? use "usersRouter" from the router reference in the users/index.js file. the router reference goes to the users/router.js file. usersRouter is actually "router" which is an express export so if called, run all functions that use the router methods within the router.js file
 
