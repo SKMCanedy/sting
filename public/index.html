@@ -27,26 +27,26 @@
 
  <!-- Login Form -->
         <div class = "container mt-3">
-            <form>
+            <form id="login-form">
                 <div class ="row justify-content-md-center">
                     <div class = "col-6">
                         <div class="form-group form-control-lg">
-                            <label for="emailInput">Username</label>
-                            <input type="email" class="form-control" id="emailInput" placeholder="Enter username">
+                            <label for="login-username">Username</label>
+                            <input type="text" class="form-control" id="login-username" placeholder="Enter username">
                         </div>
                     </div>
                 </div>
                 <div class ="row justify-content-md-center">
                     <div class = "col-6">
                         <div class="form-group form-control-lg">
-                            <label for="passwordInput">Password</label>
-                            <input type="password" class="form-control" id="passwordInput" placeholder="Enter password">
+                            <label for="login-pw">Password</label>
+                            <input type="password" class="form-control" id="login-pw" placeholder="Enter password">
                         </div>
                     </div>
                 </div>
                 <div class ="row justify-content-md-center">
                     <div class = "col-6 text-center">
-                        <button type="submit" class="btn btn-primary mx-auto" id="login-button">Login</button>
+                        <button type="submit" class="btn btn-primary mx-auto">Login</button>
                     </div>
                 </div>
                 <div class ="row justify-content-md-center mt-3">
@@ -69,34 +69,34 @@
                 </button>
                 </div>
                 <div class="modal-body">
-                <form>
+                <form id="new-user-submit">
                     <div class="form-group">
                         <label for="acct-create-firstName">First Name</label>
-                        <input type="text" class="form-control" id="acct-create-firstName" placeholder="First Name">
+                        <input type="text" class="form-control" id="acct-create-firstName" name = "firstName" placeholder="First Name" required>
                     </div>
                     <div class="form-group">
                         <label for="acct-create-lastName">Last Name</label>
-                        <input type="text" class="form-control" id="acct-create-lastName" placeholder="Last Name">
+                        <input type="text" class="form-control" id="acct-create-lastName" name = "lastName" placeholder="Last Name" required>
                     </div>
                     <div class="form-group">
                         <label for="acct-create-username">Username (only letters and numbers)</label>
-                        <input type="text" class="form-control" id="acct-create-username" placeholder="Username">
+                        <input type="text" class="form-control" id="acct-create-username" name = "username" placeholder="Username" required>
                     </div>
                     <div class="form-group">
                         <label for="acct-create-password">Password (may contain upper and lowercase letters, numbers and the following special characters: _ ! @ $)</label>
-                        <input type="password" class="form-control" id="acct-create-password" placeholder="Password">
+                        <input type="password" class="form-control" id="acct-create-password" name = "password" placeholder="Password" required>
                     </div>
+                    <button type="submit" class="btn btn-primary">Create New Account</button>
                 </form>
                 <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary">Create New Account</button>
                 </div>
             </div>
             </div>
         </div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="main.js"></script>
