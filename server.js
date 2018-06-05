@@ -1,20 +1,62 @@
 "use strict";
 
+require('dotenv').config();
+
 const express = require("express");
 const mongoose = require("mongoose");
+const morgan = require("morgan");
+const bodyParser = require("body-parser");
+
 const app = express();
-const router = express.Router();
+const router = express.Router(); //is this needed in the server.js file?
+const passport = require('passport');
+const jsonParser = bodyParser.json();
+
 const { PORT, DATABASE_URL, TEST_DATABASE_URL } = require('./config');
 
-const { router: usersRouter } = require("./users"); //need this explained. is it like this? use "usersRouter" from the router reference in the users/index.js file. the router reference goes to the users/router.js file. usersRouter is actually "router" which is an express export so if called, run all functions that use the router methods within the router.js file
+const { router: usersRouter } = require("./users");
+const { router: authRouter, localStrategy, jwtStrategy } = require('./auth');
+const { router: issueRouter } = require("./issues");
+
+passport.use(localStrategy);
+passport.use(jwtStrategy);
+
+app.use(jsonParser);
 
 app.use("/api/users/", usersRouter);
-
-
+app.use("/api/auth/", authRouter);
+app.use("/api/issues/", issueRouter);
 
 app.use(express.static("public"), function (req,res){
     res.sendStatus(200);
 })
+
+// Logging
+app.use(morgan('common'));
+
+// CORS
+app.use(function (req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'Content-Type,Authorization');
+  res.header('Access-Control-Allow-Methods', 'GET,POST,PUT,PATCH,DELETE');
+  if (req.method === 'OPTIONS') {
+    return res.send(204);
+  }
+  next();
+});
+
+// const jwtAuth = passport.authenticate('jwt', { session: false });
+
+// app.get('/api/protected', jwtAuth, (req, res) => {
+//   return res.json({
+//     data: 'rosebud' //need to figure this out
+//   });
+// });
+
+app.use('*', (req, res) => {
+  return res.status(404).json({ message: 'Not Found' });
+});
+
 let server;
 
 function runServer() {
