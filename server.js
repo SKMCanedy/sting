@@ -5,21 +5,27 @@ require('dotenv').config();
 const express = require("express");
 const mongoose = require("mongoose");
 const morgan = require("morgan");
+const bodyParser = require("body-parser");
 
 const app = express();
 const router = express.Router(); //is this needed in the server.js file?
 const passport = require('passport');
+const jsonParser = bodyParser.json();
 
 const { PORT, DATABASE_URL, TEST_DATABASE_URL } = require('./config');
 
 const { router: usersRouter } = require("./users");
 const { router: authRouter, localStrategy, jwtStrategy } = require('./auth');
+const { router: issueRouter } = require("./issues");
 
 passport.use(localStrategy);
 passport.use(jwtStrategy);
 
+app.use(jsonParser);
+
 app.use("/api/users/", usersRouter);
 app.use("/api/auth/", authRouter);
+app.use("/api/issues/", issueRouter);
 
 app.use(express.static("public"), function (req,res){
     res.sendStatus(200);
@@ -39,14 +45,13 @@ app.use(function (req, res, next) {
   next();
 });
 
+// const jwtAuth = passport.authenticate('jwt', { session: false });
 
-const jwtAuth = passport.authenticate('jwt', { session: false });
-
-app.get('/api/protected', jwtAuth, (req, res) => {
-  return res.json({
-    data: 'rosebud' //need to figure this out
-  });
-});
+// app.get('/api/protected', jwtAuth, (req, res) => {
+//   return res.json({
+//     data: 'rosebud' //need to figure this out
+//   });
+// });
 
 app.use('*', (req, res) => {
   return res.status(404).json({ message: 'Not Found' });

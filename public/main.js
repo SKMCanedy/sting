@@ -54,8 +54,9 @@ $("#login-form").submit(function(event){
 		url: loginUrl,
 		data: loginDataJson,
 		success: function(res){
-			console.log(res); //next steps can go here
+			console.log(res);
 			localStorage.setItem('token', res.authToken);
+			window.location.replace("dashboard.html");
 		},
 		dataType: "json",
 		contentType : "application/json"
