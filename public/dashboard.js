@@ -21,7 +21,7 @@ const issuesAPIUrl = "/api/issues/";
 //updates DOM with a specific issue that has been added, changed, or deleted
 //Needs: parse json, run calculations and load into the table
 function loadIssue(res){
-	//return array. reference array item in html BUT how do i know how many to insert? maybe return the html p tags?
+	console.log("loadIssue function accessed");
 
 	for (let i = 0; i < res.length; i++){
 		const simpleDate = convertDate(res[i].ticketOpenDate);
@@ -73,7 +73,47 @@ function loadIssue(res){
 
 //-- User Actions --
 
-//Create new ticket (modal form submitted)
+//Create new issue (modal form submitted)
+$("#new-issue-form").submit(function(event){
+	event.preventDefault();
+	console.log("new issue submitted");
+	
+	let custImpactData = getCustImpactDetails();
+	let affectedTeamData = getAffectedTeamData();
+	let devTeamData = $('.dev-team').val();
+
+	function getCustImpactDetails(){
+		let custImpactArray=[];
+		$('.cust-impact:checked').each(function(){
+			custImpactArray.push($(this).val());
+		});
+		return custImpactArray;
+	};
+
+	function getAffectedTeamData(){
+		let teamArray=[];
+		$('.affected-teams:checked').each(function(){
+			teamArray.push($(this).val());
+		});
+		return teamArray;
+	};
+
+	let newIssueData = JSON.stringify(
+		{ 
+		ticketNumber: $('#new-ticket-num').val(),
+		issueSummary: $('#new-summary').val(),
+		customerImpact: custImpactData,
+		ticketOpenDate: $('#new-ticket-date').val(),
+		issueFrequency: $('#new-incident-count').val(),
+		affectedTeams: affectedTeamData,
+		assignedDevTeam: devTeamData,
+		weeklyPotentialLoss: $('#new-weekly-loss').val(),
+		});
+
+	console.log(newIssueData);
+	postNewIssue(newIssueData);
+});
+
 //Edit issue (this will create a modal that proprogates the info from an existing issue)
 //Edit issue submit confirmation (this will insert html to confirm user wants to submit)
 //Edit issue complete (sends put command, closes modal and reloads issues)
@@ -139,7 +179,14 @@ function postNewIssue(newIssueData){
         data: newIssueData,
         url: issuesAPIUrl,
         headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` },
-		success: loadIssue(res),
+		success: function(res){
+			$('#add-new-issue').modal('hide');
+			$('#add-new-issue').on('hidden.bs.modal', function () {
+				$(this).find('form').trigger('reset');
+			});
+			console.log(res);
+			getAllIssues();
+		},
 		dataType: "json",
 		contentType : "application/json"
 	});
@@ -155,7 +202,7 @@ function updateIssue(updatedIssueData){
         data: updatedIssueData,
         url: issuesAPIUrl + ":" + updatedIssueData.id,
         headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` },
-		success: loadIssue(res),//may change
+		success: loadIssue(),//may change
 		dataType: "json",
 		contentType : "application/json"
 	});

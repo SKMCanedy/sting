@@ -44,9 +44,6 @@ $("#login-form").submit(function(event){
 		username: $('#login-username').val(),
 		password: $('#login-pw').val()
 		});
-	
-	console.log(loginDataJson);
-	console.log(loginUrl);
 
 	//put this into a separate function
 	$.ajax({
