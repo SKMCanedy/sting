@@ -18,7 +18,7 @@
     <nav class="navbar my-3">
         <img src="https://png.icons8.com/metro/100/000000/wasp.png" height="75 rem">
         <container class="h1 col">Sting</container>
-        <container class ="mx-2"><a href="#add-new-issue" data-toggle="modal"><button type="button" class="btn btn-primary">Add New Issue</button></a></container>
+        <container class ="mx-2"><a href="#issue-details" data-toggle="modal"><button type="button" class="btn btn-primary">Add New Issue</button></a></container>
         <container class ="mx-2"><button type="button" class="btn btn-primary">Log Out</button></container>
     </nav>
     <main> 
@@ -45,14 +45,14 @@
             <th scope="col" class="px-3" data-breakpoints="xs sm">Actions</th>
             </tr>
         </thead>
-<!-- Example Data - Actual data will be loaded by JS -->
+<!-- Dashboard Section -->
         <tbody id="dashboard-body">
         </tbody>
         </table>
 </container>
 
-<!-- New Issue Modal HTML-->
-    <div class="modal fade" id="add-new-issue" tabindex="-1" role="dialog" aria-labelledby="addNewIssue" aria-hidden="true">
+<!-- Issue Details Form Modal HTML-->
+    <div class="modal fade" id="issue-details" tabindex="-1" role="dialog" aria-labelledby="addNewIssue" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
             <div class="modal-header">
@@ -62,7 +62,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form id="new-issue-form">
+                <form id="issue-details-form">
                     <div class="form-group">
                         <label for="new-ticket-num" class="font-weight-bold">Ticket Number</label>
                         <input type="text" class="form-control" id="new-ticket-num" placeholder="New Ticket Number">
@@ -102,7 +102,7 @@
                     </div>
                     <div class="form-group">
                         <label for="new-incident-count" class="font-weight-bold">Incidents per Week</label>
-                        <input type="text" class="form-control" id="new-incident-count">
+                        <input type="number" class="form-control" id="new-incident-count">
                     </div>
                     <div class="form-group">
                        <fieldset>
@@ -144,7 +144,7 @@
                     </div>
                     <div class="form-group">
                         <label for="new-weekly-loss" class="font-weight-bold">Weekly Potential Loss</label>
-                        <input type="text" class="form-control" id="new-weekly-loss">
+                        <input type="number" class="form-control" id="new-weekly-loss">
                     </div>
                     <div>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
@@ -156,6 +156,24 @@
         </div>
     </div>
    </main>
+
+<!-- Edit issue Modal -->
+
+<div class="modal fade" id="edit-issue-modal" tabindex="-1" role="dialog" aria-labelledby="editIssue" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="edit-issue-header">Edit Issue</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body" id="edit-issue-body">
+        </div>
+        </div>
+    </div>
+</div>
+</main>
 
 <!-- Delete confirmation Modal -->
 <div class="modal fade" id="delete-confirm-modal" tabindex="-1" role="dialog" aria-labelledby="deleteConfirmation" aria-hidden="true">

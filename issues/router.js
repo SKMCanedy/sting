@@ -45,8 +45,8 @@ router.post('/', jwtAuth, (req,res) => {
         affectedTeams: req.body.affectedTeams,
         assignedDevTeam: req.body.assignedDevTeam,
         weeklyPotentialLoss: req.body.weeklyPotentialLoss,
-        weeklyTeamCost: getTeamCost(req.body.affectedTeams)*req.body.issueFrequency,
-        weeklyTotalCost: getWeeklyTotalCost(req.body.affectedTeams, req.body.weeklyPotentialLoss),
+        weeklyTeamCost: getWeeklyTeamCost(req.body.affectedTeams,req.body.issueFrequency),
+        weeklyTotalCost: getWeeklyTotalCost(req.body.affectedTeams, req.body.issueFrequency, req.body.weeklyPotentialLoss),
         modifiedBy: req.user.username
     })
     .then(
@@ -113,13 +113,16 @@ function getTeamCost(affectedTeams) {
 }
 
 function getWeeklyTeamCost(affectedTeams, issueFrequency){
-    let weeklyTeamCost = getTeamCost(affectedTeams) * issueFrequency;
+    const teamCost = getTeamCost(affectedTeams)
+    const weeklyTeamCost = teamCost * issueFrequency;
     return weeklyTeamCost;
 }
 
-function getWeeklyTotalCost(affectedTeams, potentialLoss){
-    const calculatedTeamCost = getTeamCost(affectedTeams);
-    const weeklyTotalCost = calculatedTeamCost + potentialLoss;
+function getWeeklyTotalCost(affectedTeams, issueFrequency, potentialLoss){
+    const teamCost = getWeeklyTeamCost(affectedTeams, issueFrequency);
+    const weeklyTotalCost = teamCost + potentialLoss;
+    console.log(typeof teamCost);
+    console.log(typeof weeklyTotalCost);
     return weeklyTotalCost;
 }
 //-- Exports --
