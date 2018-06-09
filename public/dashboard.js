@@ -58,14 +58,14 @@ function loadIssue(res){
 				<td>${res[i].issueFrequency}</td>
 				<td>${affectedTeamsHtml}</td>
 				<td>${res[i].assignedDevTeam}</td>
-				<td>${res[i].weeklyPotentialLoss}</td>
-				<td>${res[i].weeklyTeamCost}</td>
-				<td>${res[i].weeklyTotalCost}</td>
-				<td>${totalLoss}</td>
-				<td>${totalTeamCost}</td>
-				<td>${totalOverallCost}</td>
+				<td>$${res[i].weeklyPotentialLoss}</td>
+				<td>$${res[i].weeklyTeamCost}</td>
+				<td>$${res[i].weeklyTotalCost}</td>
+				<td>$${totalLoss}</td>
+				<td>$${totalTeamCost}</td>
+				<td>$${totalOverallCost}</td>
 				<td>${res[i].modifiedBy}</td>
-				<td class="text-center"><i class="fas fa-pencil-alt ${res[i].id}"></i><i class="fas fa-trash-alt ml-3 ${res[i].id}"></i></td>
+				<td><button type="button" id="edit-button" value="${res[i].id}"><i class="fas fa-pencil-alt"></i></button><button type="button" id="delete-button" value="${res[i].id}"><i class="fas fa-trash-alt ml-3 ${res[i].id}"></i></button></td>
 			</tr>`
 		);
 	};
@@ -118,7 +118,20 @@ $("#new-issue-form").submit(function(event){
 //Edit issue submit confirmation (this will insert html to confirm user wants to submit)
 //Edit issue complete (sends put command, closes modal and reloads issues)
 //delete issue confirmation (trash can button submitted - this will create a modal asking user to confirm)
+$(document).on("click", "#delete-button", function(event){
+	event.preventDefault();
+	let issueId = $("#delete-button").val();
+	getDeleteConfirm(issueId);
+});
 //delete issue complete (modal confirmation after trashcan button pushed)
+function getDeleteConfirm(issueId){
+	$('#delete-confirm-modal').modal('show');
+	$(document).on("click", "#delete-confirm-button", function(event){
+		event.preventDefault();
+		deleteIssue(issueId);
+		$('#delete-confirm-modal').modal('hide');
+	});
+}
 
 //-- Calculations --
 //Convert full date to simple date
@@ -214,7 +227,7 @@ function deleteIssue(deletedIssueId){
 
 	$.ajax({
         type: "DELETE",
-        url: issuesAPIUrl + ":" + deletedIssueId,
+        url: issuesAPIUrl + deletedIssueId,
         headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` },
 		success: getAllIssues(),
 		dataType: "json",
