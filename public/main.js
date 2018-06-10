@@ -3,11 +3,6 @@
 const newUserUrl = "/api/users/";
 const loginUrl = "/api/auth/login"
 
-jQuery(function($){
-	$('.table').footable();
-});
-
-
 //New User Create
 $("#new-user-submit").submit(function(event){
 	event.preventDefault();
@@ -51,7 +46,6 @@ $("#login-form").submit(function(event){
 		url: loginUrl,
 		data: loginDataJson,
 		success: function(res){
-			console.log(res);
 			localStorage.setItem('token', res.authToken);
 			window.location.replace("dashboard.html");
 		},

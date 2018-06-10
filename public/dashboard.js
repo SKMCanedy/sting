@@ -6,14 +6,14 @@ jQuery(function($){
 
 const issuesAPIUrl = "/api/issues/";
 
-// $(document).ready(function(){
-// //     console.log(localStorage.token);
-// //     if (localStorage.token === "undefined") {
-// //         console.log("if command read");
-// //         window.location.replace("index.html");
-// //     }
-    
-// });
+function loadPage(){//need better auth check here
+	if (localStorage.token === "undefined") {
+        window.location.replace("index.html");
+    }
+	else {
+		getAllIssues();
+	}
+}
 
 
 //-- HTML DOM Manipulations --
@@ -118,7 +118,7 @@ $(document).on("click", ".edit-button", function(event){
 });
 
 //Edit - creates modal and inserts info returned from GET route
-function editIssueModal (issueInfo){//Need: fix date format, insert logic for affected teams & assigned dev team
+function editIssueModal (issueInfo){//Need: insert logic for affected teams & assigned dev team
 	const standardFormatDate = new Date(issueInfo.ticketOpenDate).toISOString().slice(0,10);
 
 	function loadEditModalHtml() {
@@ -137,23 +137,23 @@ function editIssueModal (issueInfo){//Need: fix date format, insert logic for af
 					<fieldset>
 						<p class="font-weight-bold">Customer Impact</p>
 						<div class="form-check form-check-inline">
-							<input class="form-check-input cust-impact" type="checkbox" id="edit-impactArea1" value="Impact Area 1">
+							<input class="form-check-input edit-cust-impact" type="checkbox" id="edit-impactArea1" value="Impact Area 1">
 							<label class="form-check-label" for="edit-impactArea1">Impact Area 1</label>
 						</div>
 						<div class="form-check form-check-inline">
-							<input class="form-check-input cust-impact" type="checkbox" id="edit-impactArea2" value="Impact Area 2">
+							<input class="form-check-input edit-cust-impact" type="checkbox" id="edit-impactArea2" value="Impact Area 2">
 							<label class="form-check-label" for="edit-impactArea2">Impact Area 2</label>
 						</div>
 						<div class="form-check form-check-inline">
-							<input class="form-check-input cust-impact" type="checkbox" id="edit-impactArea3" value="Impact Area 3">
+							<input class="form-check-input edit-cust-impact" type="checkbox" id="edit-impactArea3" value="Impact Area 3">
 							<label class="form-check-label" for="edit-impactArea3">Impact Area 3</label>
 						</div>
 						<div class="form-check form-check-inline">
-							<input class="form-check-input cust-impact" type="checkbox" id="edit-impactArea4" value="Impact Area 4">
+							<input class="form-check-input edit-cust-impact" type="checkbox" id="edit-impactArea4" value="Impact Area 4">
 							<label class="form-check-label" for="edit-impactArea4">Impact Area 4</label>
 						</div>
 						<div class="form-check form-check-inline">
-							<input class="form-check-input cust-impact" type="checkbox" id="edit-impactArea5" value="Impact Area 5">
+							<input class="form-check-input edit-cust-impact" type="checkbox" id="edit-impactArea5" value="Impact Area 5">
 							<label class="form-check-label" for="edit-impactArea5">Impact Area 5</label>
 						</div>
 					</fieldset>
@@ -170,23 +170,23 @@ function editIssueModal (issueInfo){//Need: fix date format, insert logic for af
 				<fieldset>
 						<p class="font-weight-bold">Affected Teams</p>
 						<div class="form-check form-check-inline">
-							<input class="form-check-input affected-teams" type="checkbox" id="edit-team1" value="supportTeam1">
+							<input class="form-check-input edit-affected-teams" type="checkbox" id="edit-team1" value="supportTeam1">
 							<label class="form-check-label" for="edit-team1">Support Team 1</label>
 						</div>
 						<div class="form-check form-check-inline">
-							<input class="form-check-input affected-teams" type="checkbox" id="edit-team2" value="supportTeam2">
+							<input class="form-check-input edit-affected-teams" type="checkbox" id="edit-team2" value="supportTeam2">
 							<label class="form-check-label" for="edit-team2">Support Team 2</label>
 						</div>
 						<div class="form-check form-check-inline">
-							<input class="form-check-input affected-teams" type="checkbox" id="edit-team3" value="supportTeam3">
+							<input class="form-check-input edit-affected-teams" type="checkbox" id="edit-team3" value="supportTeam3">
 							<label class="form-check-label" for="edit-team3">Support Team 3</label>
 						</div>
 						<div class="form-check form-check-inline">
-							<input class="form-check-input affected-teams" type="checkbox" id="edit-team4" value="supportTeam4">
+							<input class="form-check-input edit-affected-teams" type="checkbox" id="edit-team4" value="supportTeam4">
 							<label class="form-check-label" for="edit-team4">Support Team 4</label>
 						</div>
 						<div class="form-check form-check-inline">
-							<input class="form-check-input affected-teams" type="checkbox" id="edit-team5" value="supportTeam5">
+							<input class="form-check-input edit-affected-teams" type="checkbox" id="edit-team5" value="supportTeam5">
 							<label class="form-check-label" for="edit-team5">Support Team 5</label>
 						</div>
 					</fieldset>
@@ -195,32 +195,33 @@ function editIssueModal (issueInfo){//Need: fix date format, insert logic for af
 					<fieldset>
 						<p class="font-weight-bold">Assigned Dev Team</p>
 						<select class="custom-select edit-dev-team">
-							<option selected>Choose...</option>
-							<option value="Dev Team 1">Dev Team 1</option>
-							<option value="Dev Team 2">Dev Team 2</option>
-							<option value="Dev Team 3">Dev Team 3</option>
-							<option value="Other">Other</option>
-							<option value="None">None</option>
+							<option>Choose...</option>
+							<option value="Dev Team 1" id="edit-dev-team1">Dev Team 1</option>
+							<option value="Dev Team 2" id="edit-dev-team2">Dev Team 2</option>
+							<option value="Dev Team 3" id="edit-dev-team3">Dev Team 3</option>
+							<option value="Other" id="edit-dev-team4">Other</option>
+							<option value="None" id="edit-dev-team5">None</option>
 						</select>
 					</fieldset>
 				</div>
 				<div class="form-group">
 					<label for="edit-new-weekly-loss" class="font-weight-bold">Weekly Potential Loss</label>
-					<input type="number" class="form-control" id="edit-new-weekly-loss" value="${issueInfo.weeklyPotentialLoss}">
+					<input type="number" class="form-control" id="edit-weekly-loss" value="${issueInfo.weeklyPotentialLoss}">
 				</div>
-				<div>
+				<div id="edit-confirmation"></div>
+				<div id="edit-form-buttons">
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-					<button type="submit" class="btn btn-primary">Edit Issue</button>
+					<button type="submit" class="btn btn-primary" id="edit-submit-button" value="${issueInfo.id}">Edit Issue</button>
 				</div>
 			</form>
 	
 			`)
 	};
 
-	function findCheckedImpactArea(){
+	function findImpactAreas(){
 		$(issueInfo.customerImpact).each(function(){
 			for (let i=1; i<=5; i++){
-				let impactArea=("#edit-impactArea"+i)
+				let impactArea=("#edit-impactArea"+i);
 				if (this == ("Impact Area " + i)){
 					$(impactArea).prop("checked", true);
 				};
@@ -228,35 +229,134 @@ function editIssueModal (issueInfo){//Need: fix date format, insert logic for af
 		});
 	};
 
+	function findAffectedTeams(){
+		$(issueInfo.affectedTeams).each(function(){
+			for (let i=1; i<=5; i++){
+				let affectedTeam=("#edit-team"+i);
+				if (this == ("supportTeam" + i)){
+					$(affectedTeam).prop("checked", true);
+				};
+			};
+		});
+	};
+
+	function findDevTeam(){
+		switch (issueInfo.assignedDevTeam)
+        {
+            case "Dev Team 1":
+				$("#edit-dev-team1").prop("selected", true);
+                break;
+
+            case "Dev Team 2":
+				$("#edit-dev-team2").prop("selected", true);
+                break;
+
+            case "Dev Team 3":
+				$("#edit-dev-team3").prop("selected", true);
+                break;
+
+            case "Other":
+				$("#edit-dev-team4").prop("selected", true);
+                break;
+
+            case "None":
+				$("#edit-dev-team5").prop("selected", true);
+				break;
+		}
+	}
+	
+
 	function showModal(){
 		$('#edit-issue-modal').modal('show');
 	};
 
 	loadEditModalHtml();
-	findCheckedImpactArea();
+	findImpactAreas();
+	findAffectedTeams();
+	findDevTeam();
 	showModal();
 }
 
-//Edit issue modal (this will create a modal that proprogates the info from an existing issue)
+//Edit - submit confirmation (this will insert html to confirm user wants to submit)
+$(document).on("click", "#edit-submit-button", function(event){
+	event.preventDefault();
+	$("#edit-form-buttons").addClass("collapse")
+	$("#edit-confirmation").html(
+		`
+		<p>Are you sure you want to commit these changes?</p>
+		<div id="edit-confirmation-buttons">
+			<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+			<button type="submit" class="btn btn-primary" id="edit-confirm-button">Confirm Changes</button>
+		</div>
+		`
+	)
+});
+
+//Edit - confirmed edit runs POST
+$(document).on("click", "#edit-confirm-button", function(event){
+	console.log("Confirm edit clicked");
+	event.preventDefault();
+	let custImpactData = getCustImpactDetails();
+	let affectedTeamData = getAffectedTeamData();
+	let issueId = $("#edit-submit-button").val();
 
 
-//Edit issue submit confirmation (this will insert html to confirm user wants to submit)
-//delete issue confirmation (trash can button submitted - this will create a modal asking user to confirm)
-$(document).on("click", "#delete-button", function(event){
-	let issueId = $("#delete-button").val();
+	function getCustImpactDetails(){
+		let custImpactArray=[];
+		$('.edit-cust-impact:checked').each(function(){
+			custImpactArray.push($(this).val());
+		});
+		return custImpactArray;
+	};
+
+	function getAffectedTeamData(){
+		let teamArray=[];
+		$('.edit-affected-teams:checked').each(function(){
+			teamArray.push($(this).val());
+		});
+		return teamArray;
+	};
+
+	let editIssueData = JSON.stringify(
+		{ 
+		ticketNumber: $('#edit-ticket-num').val(),
+		issueSummary: $('#edit-summary').val(),
+		customerImpact: custImpactData,
+		ticketOpenDate: $('#edit-ticket-date').val(),
+		issueFrequency: parseInt($('#edit-incident-count').val()),
+		affectedTeams: affectedTeamData,
+		assignedDevTeam: $('.edit-dev-team').val(),
+		weeklyPotentialLoss: parseInt($('#edit-weekly-loss').val())
+		});
+	updateIssue(editIssueData,issueId);
+});
+
+//DELETE -   confirmation (trash can button submitted - this will create a modal asking user to confirm)
+$(document).on("click", ".delete-button", function(event){
+	let issueId = $(this).val();
+	console.log(issueId);
 	getDeleteConfirm(issueId);
 });
-//delete issue complete (modal confirmation after trashcan button pushed)
+//DELETE - executed (modal confirmation after trashcan button pushed)
 function getDeleteConfirm(issueId){
-	$('delete-confirm-modal').modal('show');
-	$(document).on("click", ".delete-confirm-button", function(event){
+	$('#delete-confirm-modal').modal('show');
+	$(document).on("click", "#delete-confirm-button", function(event){
 		event.preventDefault();
 		deleteIssue(issueId);
 		$('#delete-confirm-modal').modal('hide');
+		location.reload(true);
 	});
 }
 
+//LOG OUT
+
+$("#log-out-button").click(function(){
+	localStorage.setItem('token', undefined);
+	window.location.replace("index.html");
+});
+
 //-- Calculations --
+
 //Convert full date to simple date
 function convertDate(originalDate){
 	let gmtDate = new Date(originalDate);
@@ -291,6 +391,7 @@ function calcTotalCost(totalLoss, teamCostTotal){
 
 
 //-- API CALLS --
+
 //calls all open issues in DB
 function getAllIssues(){
     console.log (`getAllIssues function accessed`);
@@ -336,8 +437,7 @@ function postNewIssue(newIssueData){
 			$('#issue-details').on('hidden.bs.modal', function () {
 				$(this).find('form').trigger('reset');
 			});
-			console.log(res);
-			getAllIssues();
+			location.reload();
 		},
 		dataType: "json",
 		contentType : "application/json"
@@ -346,32 +446,36 @@ function postNewIssue(newIssueData){
 
 //updates a particular issue
 
-function updateIssue(updatedIssueData){
-    console.log (`updateIssue function accessed`);
+function updateIssue(updatedIssueData,issueId){
+	console.log (`updateIssue function accessed`);
+	console.log(issueId);
 
 	$.ajax({
         type: "PUT",
         data: updatedIssueData,
-        url: issuesAPIUrl + ":" + updatedIssueData.id,
+        url: issuesAPIUrl + issueId,
         headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` },
-		success: loadIssue(),//may change
+		success: function(res){
+			$('#edit-issue-modal').modal('hide');
+			location.reload(true)
+		},
 		dataType: "json",
 		contentType : "application/json"
 	});
 };
-//deletes issue - pull whole table again (easier/more proper solution) or remove it via html, trusting it worked (not as a great idea)
 
+//deletes issue 
 function deleteIssue(deletedIssueId){
-    console.log (`deleteIssue function accessed`);
+	console.log (`deleteIssue function accessed`);
+	console.log(deletedIssueId)
 
 	$.ajax({
         type: "DELETE",
         url: issuesAPIUrl + deletedIssueId,
         headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` },
-		success: getAllIssues(),
 		dataType: "json",
 		contentType : "application/json"
 	});
 };
 
-getAllIssues();
+loadPage();
