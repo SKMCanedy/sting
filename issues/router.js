@@ -51,9 +51,15 @@ router.post('/', jwtAuth, (req,res) => {
     })
     .then(
         issue => res.status(201).json(issue.serialize()))
-    .catch(err => {
+    .catch(function(err){
+        if (err.code == 11000){
+            res.status(500).json({message: 'Duplicate Ticket Number'});
+        } 
+        else {
+            res.status(500).json({message: 'Internal server error'});
+        }
         console.error(err);
-        res.status(500).json({message: 'Internal server error'});
+        console.error(err.code);
     });
 });
 

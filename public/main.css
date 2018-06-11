@@ -1,3 +1,148 @@
+body, .btn-primary, .modal-header{
+    background-color: #000000;
+    color: #FFFFFF;
+    font-family: 'Oswald', sans-serif;
+}
+
 .top-margin{
-    margin-top: 5rem;
+    margin-top: 3rem;
+}
+
+.large-font{
+    font-size: 1.5rem;
+}
+
+.med-font{
+    font-size:1rem;
+}
+
+.sm-padding{
+    padding: .3rem;
+}
+
+
+h1{
+    font-family: 'Covered By Your Grace', cursive;
+    font-size: 3rem;
+}
+
+h1:hover{
+    color:rgb(255, 230, 5);
+}
+
+#logo-pic:hover {
+    content: url(https://png.icons8.com/metro/100/FFE600/wasp.png);
+}
+
+input.form-control {
+    color: #000000;
+}
+
+.form-control::-moz-placeholder {
+    color: #000000;
+    opacity: 1;
+}
+.form-control:-ms-input-placeholder {
+    color: #000000;
+}
+.form-control::-webkit-input-placeholder {
+    color: #000000;
+}
+
+.form-control:focus { 
+    border-color: #000000;  
+    -webkit-box-shadow: inset 0 1px 1px rgb(255, 230, 5), 0 0 8px rgba(255, 230, 5, 5); 
+    box-shadow: inset 0 1px 1px rgba(255, 230, 5), 0 0 8px rgba(255, 230, 5, 5);
+    background-color: rgba(255, 230, 5);
+    
+} 
+
+.btn:hover, .btn:focus, .btn:active, .btn.active, .open>.dropdown-toggle.btn{
+    color: #000000;
+    background-color:  rgb(255, 230, 5);
+    border-color: #000000; 
+}
+.btn-secondary {
+    background-color: rgb(255, 82, 51);
+}
+
+.modal-backdrop.show {
+    background-color: rgb(255, 230, 0);
+    opacity: 0.7;
+}
+
+.modal-color{
+    color: #000000;
+}
+
+/* --- Media Queries --- */
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+    .top-margin{
+        margin-top: 2rem;
+    }
+
+    .large-font{
+        font-size: 1rem;
+    }
+
+    #logo-pic{
+        width: 4rem;
+        height: 4rem;
+    }
+
+    h1{
+        font-size: 3rem;     
+    }
+} 
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+    
+} 
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+    .large-font{
+        font-size: 2rem;
+    }
+    
+    .med-font{
+        font-size: 1.5rem
+    }
+    
+    .top-margin{
+        margin-top: 5rem;
+    }
+} 
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+    .large-font{
+        font-size: 2rem;
+    }
+    
+    .med-font{
+        font-size: 1.5rem
+    }
+    
+    .top-margin{
+        margin-top: 5rem;
+    }
+} 
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+    .large-font{
+        font-size: 2rem;
+    }
+    
+    .med-font{
+        font-size: 1.5rem
+    }
+    
+    .top-margin{
+        margin-top: 5rem;
+    }
 }

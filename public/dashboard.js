@@ -50,7 +50,7 @@ function loadIssue(res){
 
 		$("#dashboard-body").append(
 			`<tr>
-				<td>${res[i].ticketNumber}</td>
+				<td class="text-left">${res[i].ticketNumber}</td>
 				<td>${res[i].issueSummary}</td>
 				<td>${simpleDate}</td>
 				<td>${customerImpactHtml}</td>
@@ -65,11 +65,27 @@ function loadIssue(res){
 				<td>$${totalTeamCost}</td>
 				<td>$${totalOverallCost}</td>
 				<td>${res[i].modifiedBy}</td>
-				<td><button type="button" class="edit-button" value="${res[i].id}"><i class="fas fa-pencil-alt"></i></button><button type="button" class="delete-button" value="${res[i].id}"><i class="fas fa-trash-alt ml-3 ${res[i].id}"></i></button></td>
+				<td>
+				<button type="button" class="edit-button" value="${res[i].id}"><i class="fas fa-pencil-alt"></i></button>
+				<button type="button" class="delete-button" value="${res[i].id}"><i class="fas fa-trash-alt"></i></button>
+				</td>
 			</tr>`
 		);
 	};
 };
+
+//alerts user if they are attemmpting to add an issue already in the database
+function insertDuplicateIssueHtml(){
+	console.log("insertDuplicateIssueHtml function accessed");
+	$(".dup-issue-warning").html(
+		"   ! Issue already exists !"
+	);
+};
+
+//removes duplicate alert
+function removeDuplicateIssueHtml(){
+	$(".dup-issue-warning").html("");
+}
 
 //-- User Actions --
 
@@ -108,6 +124,9 @@ $("#issue-details").submit(function(event){
 		assignedDevTeam: $('.dev-team').val(),
 		weeklyPotentialLoss: parseInt($('#new-weekly-loss').val())
 		});
+	
+	removeDuplicateIssueHtml();
+	
 	postNewIssue(newIssueData);
 });
 
@@ -209,7 +228,7 @@ function editIssueModal (issueInfo){//Need: insert logic for affected teams & as
 					<input type="number" class="form-control" id="edit-weekly-loss" value="${issueInfo.weeklyPotentialLoss}">
 				</div>
 				<div id="edit-confirmation"></div>
-				<div id="edit-form-buttons">
+				<div id="edit-form-buttons" class="text-center">
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
 					<button type="submit" class="btn btn-primary" id="edit-submit-button" value="${issueInfo.id}">Edit Issue</button>
 				</div>
@@ -283,8 +302,8 @@ $(document).on("click", "#edit-submit-button", function(event){
 	$("#edit-form-buttons").addClass("collapse")
 	$("#edit-confirmation").html(
 		`
-		<p>Are you sure you want to commit these changes?</p>
-		<div id="edit-confirmation-buttons">
+		<p class="text-danger">Are you sure you want to commit these changes?</p>
+		<div id="edit-confirmation-buttons" class="text-center">
 			<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
 			<button type="submit" class="btn btn-primary" id="edit-confirm-button">Confirm Changes</button>
 		</div>
@@ -438,6 +457,12 @@ function postNewIssue(newIssueData){
 				$(this).find('form').trigger('reset');
 			});
 			location.reload();
+		},
+		error: function(res){
+			console.log(res);
+			if (res.responseJSON.message == "Duplicate Ticket Number"){
+				insertDuplicateIssueHtml();
+			};
 		},
 		dataType: "json",
 		contentType : "application/json"

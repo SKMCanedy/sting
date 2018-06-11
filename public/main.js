@@ -54,8 +54,3 @@ $("#login-form").submit(function(event){
 	});
 });
 
-
-// headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
-//clean up some new user stuff
-//try to connect login & get token response
-//try to add protected routes

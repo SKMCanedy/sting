@@ -5,31 +5,41 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Sting Homepage</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
 <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
+<!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Covered+By+Your+Grace" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Oswald:400,700" rel="stylesheet">
+<!-- Main CSS -->
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
     
 </head>
 <body>
     <main>
+    <div>
 <!-- Logo & Title -->
-        <div class="container top-margin">
-            <div class="row justify-content-center  align-items-center">
+        <div class="container top-margin justify-content-center">
+            <div class="row justify-content-center align-items-center">
                 <div class="col">
-                    <img src="https://png.icons8.com/metro/100/000000/wasp.png" class = "float-right">
+                    <img src="https://png.icons8.com/metro/100/ffffff/wasp.png" class = "float-right" id="logo-pic">
                 </div>
                 <div class="col">
                     <h1 class = "float-left">Sting</h1>
                 </div>
             </div>
+            <div class="row justify-content-center large-font top-margin text-center">
+                <p>Swarmed by technical bugs?</p>
+            </div>
+            <div class="row justify-content-center large-font text-center sm-padding">
+                <p>Track, measure, and prioritize the pain level with Sting.</p>
+            </div>
         </div>
 
  <!-- Login Form -->
-        <div class = "container mt-3">
-            <form id="login-form">
+        <div class = "container mt-3 text-white">
+            <form id="login-form" class="container">
                 <div class ="row justify-content-md-center">
-                    <div class = "col-6">
+                    <div class = "col-md-6">
                         <div class="form-group form-control-lg">
                             <label for="login-username">Username</label>
                             <input type="text" class="form-control" id="login-username" placeholder="Enter username">
@@ -37,7 +47,7 @@
                     </div>
                 </div>
                 <div class ="row justify-content-md-center">
-                    <div class = "col-6">
+                    <div class = "col-md-6">
                         <div class="form-group form-control-lg">
                             <label for="login-pw">Password</label>
                             <input type="password" class="form-control" id="login-pw" placeholder="Enter password">
@@ -45,25 +55,26 @@
                     </div>
                 </div>
                 <div class ="row justify-content-md-center">
-                    <div class = "col-6 text-center">
-                        <button type="submit" class="btn btn-primary mx-auto">Login</button>
+                    <div class = "col-md-6 text-center">
+                        <button type="submit" class="btn btn-primary mx-auto btn-outline-light">Login</button>
                     </div>
                 </div>
                 <div class ="row justify-content-md-center mt-3">
-                        <div class = "col-6 text-center">
-                            <p>Need to create an account? Click <a href="#account-create" data-toggle="modal"> HERE</a></p>
+                        <div class = "col-md-6 text-center top-margin med-font">
+                            <p>Need to create an account? Click <a href="#account-create" data-toggle="modal" class="text-warning"> HERE</a></p>
                         </div>
                 </div>
             </form>
         </div>
+    </div>
     </main>
 
-<!-- Modal HTML - may be moved to the JS file -->
-      <div class="modal fade" id="account-create" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<!-- New User Modal HTML -->
+      <div class="modal fade" id="account-create" tabindex="-1" role="dialog" aria-labelledby="Account Creation Screen" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
+            <div class="modal-content modal-color">
                 <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Account Creation</h5>
+                <h5 class="modal-title">Account Creation</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -72,19 +83,19 @@
                 <form id="new-user-submit">
                     <div class="form-group">
                         <label for="acct-create-firstName">First Name</label>
-                        <input type="text" class="form-control" id="acct-create-firstName" name = "firstName" placeholder="First Name" required>
+                        <input type="text" class="form-control" id="acct-create-firstName" name = "firstName" required>
                     </div>
                     <div class="form-group">
                         <label for="acct-create-lastName">Last Name</label>
-                        <input type="text" class="form-control" id="acct-create-lastName" name = "lastName" placeholder="Last Name" required>
+                        <input type="text" class="form-control" id="acct-create-lastName" name = "lastName" required>
                     </div>
                     <div class="form-group">
                         <label for="acct-create-username">Username (only letters and numbers)</label>
-                        <input type="text" class="form-control" id="acct-create-username" name = "username" placeholder="Username" required>
+                        <input type="text" class="form-control" id="acct-create-username" name = "username" required>
                     </div>
                     <div class="form-group">
                         <label for="acct-create-password">Password (may contain upper and lowercase letters, numbers and the following special characters: _ ! @ $)</label>
-                        <input type="password" class="form-control" id="acct-create-password" name = "password" placeholder="Password" required>
+                        <input type="password" class="form-control" id="acct-create-password" name = "password" required>
                     </div>
                         <div class="text-center">
                             <button type="button" class="btn btn-secondary close-modal" data-dismiss="modal">Cancel</button>
