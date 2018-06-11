@@ -14,6 +14,7 @@ const jwtAuth = passport.authenticate('jwt', { session: false });
 //-- CRUD Routes --
 
 router.get('/', jwtAuth, (req,res) => {
+    console.log("GET all route accessed");
     Issue
     .find()
     .then(openIssues => {
@@ -23,6 +24,7 @@ router.get('/', jwtAuth, (req,res) => {
 });
 
 router.get('/:id', jwtAuth, (req,res) => {
+    console.log("GET single route accessed");
     Issue
     .findById(req.params.id)
     .then(singleIssue => {
@@ -32,6 +34,7 @@ router.get('/:id', jwtAuth, (req,res) => {
 });
 
 router.post('/', jwtAuth, (req,res) => {
+    console.log("POST Route accessed");
     Issue
     .create({
         ticketNumber: req.body.ticketNumber,
@@ -42,15 +45,21 @@ router.post('/', jwtAuth, (req,res) => {
         affectedTeams: req.body.affectedTeams,
         assignedDevTeam: req.body.assignedDevTeam,
         weeklyPotentialLoss: req.body.weeklyPotentialLoss,
-        weeklyTeamCost: getTeamCost(req.body.affectedTeams),
+        weeklyTeamCost: getWeeklyTeamCost(req.body.affectedTeams,req.body.issueFrequency),
         weeklyTotalCost: getWeeklyTotalCost(req.body.affectedTeams, req.body.issueFrequency, req.body.weeklyPotentialLoss),
         modifiedBy: req.user.username
     })
     .then(
         issue => res.status(201).json(issue.serialize()))
-    .catch(err => {
+    .catch(function(err){
+        if (err.code == 11000){
+            res.status(500).json({message: 'Duplicate Ticket Number'});
+        } 
+        else {
+            res.status(500).json({message: 'Internal server error'});
+        }
         console.error(err);
-        res.status(500).json({message: 'Internal server error'});
+        console.error(err.code);
     });
 });
 
@@ -58,6 +67,7 @@ router.post('/', jwtAuth, (req,res) => {
 //to address partial updates so this can be outsourced to other frontends
 
 router.put('/:id', jwtAuth, (req,res) => {
+    console.log("PUT Route accessed");
     let issueNewDetails = req.body;
     issueNewDetails.weeklyTeamCost = getTeamCost(req.body.affectedTeams);
     issueNewDetails.weeklyTotalCost = getWeeklyTotalCost(req.body.affectedTeams, req.body.issueFrequency, req.body.weeklyPotentialLoss);
@@ -70,6 +80,7 @@ router.put('/:id', jwtAuth, (req,res) => {
 });
 
 router.delete('/:id', jwtAuth, (req,res)=> {
+    console.log("DELETE Route accessed");
     Issue.findByIdAndRemove(req.params.id, () =>{
         res.status(200).end();
     });
@@ -107,9 +118,17 @@ function getTeamCost(affectedTeams) {
     return teamCost;
 }
 
+function getWeeklyTeamCost(affectedTeams, issueFrequency){
+    const teamCost = getTeamCost(affectedTeams)
+    const weeklyTeamCost = teamCost * issueFrequency;
+    return weeklyTeamCost;
+}
+
 function getWeeklyTotalCost(affectedTeams, issueFrequency, potentialLoss){
-    const calculatedTeamCost = getTeamCost(affectedTeams);
-    const weeklyTotalCost = (calculatedTeamCost * issueFrequency) + potentialLoss;
+    const teamCost = getWeeklyTeamCost(affectedTeams, issueFrequency);
+    const weeklyTotalCost = teamCost + potentialLoss;
+    console.log(typeof teamCost);
+    console.log(typeof weeklyTotalCost);
     return weeklyTotalCost;
 }
 //-- Exports --

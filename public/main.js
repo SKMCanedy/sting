@@ -3,11 +3,6 @@
 const newUserUrl = "/api/users/";
 const loginUrl = "/api/auth/login"
 
-jQuery(function($){
-	$('.table').footable();
-});
-
-
 //New User Create
 $("#new-user-submit").submit(function(event){
 	event.preventDefault();
@@ -44,9 +39,6 @@ $("#login-form").submit(function(event){
 		username: $('#login-username').val(),
 		password: $('#login-pw').val()
 		});
-	
-	console.log(loginDataJson);
-	console.log(loginUrl);
 
 	//put this into a separate function
 	$.ajax({
@@ -54,7 +46,6 @@ $("#login-form").submit(function(event){
 		url: loginUrl,
 		data: loginDataJson,
 		success: function(res){
-			console.log(res);
 			localStorage.setItem('token', res.authToken);
 			window.location.replace("dashboard.html");
 		},
@@ -63,8 +54,3 @@ $("#login-form").submit(function(event){
 	});
 });
 
-
-// headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
-//clean up some new user stuff
-//try to connect login & get token response
-//try to add protected routes

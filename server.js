@@ -45,14 +45,6 @@ app.use(function (req, res, next) {
   next();
 });
 
-// const jwtAuth = passport.authenticate('jwt', { session: false });
-
-// app.get('/api/protected', jwtAuth, (req, res) => {
-//   return res.json({
-//     data: 'rosebud' //need to figure this out
-//   });
-// });
-
 app.use('*', (req, res) => {
   return res.status(404).json({ message: 'Not Found' });
 });
