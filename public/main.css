@@ -9,7 +9,7 @@ body, .btn-primary, .modal-header{
 }
 
 .large-font{
-    font-size: 1.5rem;
+    font-size: 1.25rem;
 }
 
 .med-font{
@@ -18,6 +18,15 @@ body, .btn-primary, .modal-header{
 
 .sm-padding{
     padding: .3rem;
+}
+
+.sm-padding-right{
+    padding-right: 2rem;
+}
+
+#logo-pic{
+    width: 5rem;
+    height: 5rem;
 }
 
 
@@ -79,70 +88,48 @@ input.form-control {
 
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 600px) {
-    .top-margin{
-        margin-top: 2rem;
-    }
 
-    .large-font{
-        font-size: 1rem;
-    }
-
-    #logo-pic{
-        width: 4rem;
-        height: 4rem;
-    }
-
-    h1{
-        font-size: 3rem;     
-    }
 } 
 
 /* Small devices (portrait tablets and large phones, 600px and up) */
 @media only screen and (min-width: 600px) {
-    
+    .top-margin{
+        margin-top: 2rem;
+    }
 } 
 
 /* Medium devices (landscape tablets, 768px and up) */
-@media only screen and (min-width: 768px) {
+@media only screen and (min-width: 768px) {    
+    .top-margin{
+        margin-top: 4rem;
+    }
+
     .large-font{
-        font-size: 2rem;
+        font-size: 1.5rem;
     }
     
     .med-font{
         font-size: 1.5rem
-    }
-    
-    .top-margin{
-        margin-top: 5rem;
     }
 } 
 
 /* Large devices (laptops/desktops, 992px and up) */
 @media only screen and (min-width: 992px) {
+    #logo-pic{
+        width: 5rem;
+        height: 5rem;
+    }
+
+    h1{
+        font-size: 4rem;
+    }
+
     .large-font{
         font-size: 2rem;
     }
-    
-    .med-font{
-        font-size: 1.5rem
-    }
-    
-    .top-margin{
-        margin-top: 5rem;
-    }
-} 
+}
 
 /* Extra large devices (large laptops and desktops, 1200px and up) */
 @media only screen and (min-width: 1200px) {
-    .large-font{
-        font-size: 2rem;
-    }
-    
-    .med-font{
-        font-size: 1.5rem
-    }
-    
-    .top-margin{
-        margin-top: 5rem;
-    }
+
 }
