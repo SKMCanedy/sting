@@ -29,7 +29,6 @@ router.post('/', jsonParser, (req, res) => {
     let trimmedInput = result.value;
 
     let { username, password, firstName, lastName } = trimmedInput;
-    console.log(username, password, firstName, lastName);
 
     return User.find({username})
         .count()
@@ -41,11 +40,9 @@ router.post('/', jsonParser, (req, res) => {
                     message: "Username already taken",
                     location: "username"
                 });
-            console.log(count);
             };
 
             let hashPw = User.hashPassword(password);
-            console.log(hashPw);
             return hashPw;
         })
         .then(hash => {
@@ -57,9 +54,9 @@ router.post('/', jsonParser, (req, res) => {
             });
         })
         .then(user => {
-            return res.status(201).json(user.serialize());//what is happening here? calling the serialize method in models.js which compiles the user info into a json to return in a response?
+            return res.status(201).json(user.serialize());
         })
-        .catch(err => { //Joi returns it's own error above. Is there anything i need to do here in the catch to address Joi? 
+        .catch(err => {
             if (err.reason === 'ValidationError'){
                 return res.status(err.code).json(err);
             }
