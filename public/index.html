@@ -19,7 +19,7 @@
     <div>
 <!-- Logo & Title -->
         <div class="container top-margin justify-content-center">
-            <div class="row justify-content-center align-items-center">
+            <div class="row justify-content-center align-items-center sm-padding-right">
                 <div class="col">
                     <img src="https://png.icons8.com/metro/100/ffffff/wasp.png" class = "float-right" id="logo-pic">
                 </div>
@@ -27,22 +27,22 @@
                     <h1 class = "float-left">Sting</h1>
                 </div>
             </div>
-            <div class="row justify-content-center large-font top-margin text-center">
-                <p>Swarmed by technical bugs?</p>
+            <div class="row justify-content-center top-margin text-center">
+                <p class ="large-font">Swarmed by technical bugs?</p>
             </div>
-            <div class="row justify-content-center large-font text-center sm-padding">
-                <p>Track, measure, and prioritize the pain level with Sting.</p>
+            <div class="row justify-content-center text-center sm-padding">
+                <p class ="large-font">Track, measure, and prioritize the pain level with Sting.</p>
             </div>
         </div>
 
  <!-- Login Form -->
-        <div class = "container mt-3 text-white">
+        <div class = "container mt-4 text-white">
             <form id="login-form" class="container">
                 <div class ="row justify-content-md-center">
                     <div class = "col-md-6">
                         <div class="form-group form-control-lg">
                             <label for="login-username">Username</label>
-                            <input type="text" class="form-control" id="login-username" placeholder="Enter username">
+                            <input type="text" class="form-control" id="login-username" placeholder="Enter username" required>
                         </div>
                     </div>
                 </div>
@@ -50,10 +50,11 @@
                     <div class = "col-md-6">
                         <div class="form-group form-control-lg">
                             <label for="login-pw">Password</label>
-                            <input type="password" class="form-control" id="login-pw" placeholder="Enter password">
+                            <input type="password" class="form-control" id="login-pw" placeholder="Enter password" required>
                         </div>
                     </div>
                 </div>
+                <div class = "row text-danger justify-content-md-center pb-2 text-center" id="login-error"></div>
                 <div class ="row justify-content-md-center">
                     <div class = "col-md-6 text-center">
                         <button type="submit" class="btn btn-primary mx-auto btn-outline-light">Login</button>
@@ -90,7 +91,7 @@
                         <input type="text" class="form-control" id="acct-create-lastName" name = "lastName" required>
                     </div>
                     <div class="form-group">
-                        <label for="acct-create-username">Username (only letters and numbers)</label>
+                        <label for="acct-create-username">Username (only letters and numbers)<span class="text-danger" id="username-alert"></span></label>
                         <input type="text" class="form-control" id="acct-create-username" name = "username" required>
                     </div>
                     <div class="form-group">
@@ -105,6 +106,24 @@
             </div>
             </div>
         </div>
+    </div>
+
+<!-- New User Success -->
+    <div class="modal fade" id="account-success" tabindex="-1" role="dialog" aria-labelledby="Account Creation Successful Screen" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content modal-color">
+            <div class="modal-header">
+            <h5 class="modal-title">Success!</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-body text-center">
+                <p>New Account Created. Please click the continue button to return to the login screen.</p>
+                <button type="button" class="btn btn-primary close-modal" data-dismiss="modal">Continue</button>
+            </div>
+        </div>
+    </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
