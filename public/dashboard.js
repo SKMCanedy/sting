@@ -15,14 +15,10 @@ function loadPage(){//need better auth check here
 	}
 }
 
-
-//-- HTML DOM Manipulations --
+//--## HTML DOM Manipulations --
 
 //updates DOM with a specific issue that has been added, changed, or deleted
-//Needs: parse json, run calculations and load into the table
 function loadIssue(res){
-	console.log("loadIssue function accessed");
-
 	for (let i = 0; i < res.length; i++){
 		const simpleDate = convertDate(res[i].ticketOpenDate);
 		const weeksOpen = calcWeeksOpen(simpleDate);
@@ -50,24 +46,25 @@ function loadIssue(res){
 
 		$("#dashboard-body").append(
 			`<tr>
-				<td class="text-left">${res[i].ticketNumber}</td>
-				<td>${res[i].issueSummary}</td>
-				<td>${simpleDate}</td>
-				<td>${customerImpactHtml}</td>
-				<td>${weeksOpen}</td>
-				<td>${res[i].issueFrequency}</td>
-				<td>${affectedTeamsHtml}</td>
-				<td>${res[i].assignedDevTeam}</td>
-				<td>$${res[i].weeklyPotentialLoss}</td>
-				<td>$${res[i].weeklyTeamCost}</td>
-				<td>$${res[i].weeklyTotalCost}</td>
-				<td>$${totalLoss}</td>
-				<td>$${totalTeamCost}</td>
-				<td>$${totalOverallCost}</td>
-				<td>${res[i].modifiedBy}</td>
+				<td> </td>
+				<td class="text-left px-3">${res[i].ticketNumber}</td>
+				<td class="px-4">${res[i].issueSummary}</td>
+				<td class="px-3">${simpleDate}</td>
+				<td class="px-3">${customerImpactHtml}</td>
+				<td class="px-3">${weeksOpen}</td>
+				<td class="px-3">${res[i].issueFrequency}</td>
+				<td class="px-3">${affectedTeamsHtml}</td>
+				<td class="px-3">${res[i].assignedDevTeam}</td>
+				<td class="px-3" data-sort-value="${res[i].weeklyPotentialLoss}">$${res[i].weeklyPotentialLoss}</td>
+				<td class="px-3" data-sort-value="${res[i].weeklyTeamCost}">$${res[i].weeklyTeamCost}</td>
+				<td class="px-3" data-sort-value="${res[i].weeklyTotalCost}">$${res[i].weeklyTotalCost}</td>
+				<td class="px-3" data-sort-value="${totalLoss}">$${totalLoss}</td>
+				<td class="px-3" data-sort-value="${totalTeamCost}">$${totalTeamCost}</td>
+				<td class="px-3" data-sort-value="${totalOverallCost}">$${totalOverallCost}</td>
+				<td class="px-3">${res[i].modifiedBy}</td>
 				<td>
-				<button type="button" class="edit-button" value="${res[i].id}"><i class="fas fa-pencil-alt"></i></button>
-				<button type="button" class="delete-button" value="${res[i].id}"><i class="fas fa-trash-alt"></i></button>
+				<button type="button" class="btn edit-button action-button" value="${res[i].id}"><span class="fas fa-pencil-alt" title="Edit"></span></button>
+				<button type="button" class="btn delete-button action-button" value="${res[i].id}"><span class="fas fa-trash-alt" title="Delete"></span></button>
 				</td>
 			</tr>`
 		);
@@ -75,24 +72,68 @@ function loadIssue(res){
 };
 
 //alerts user if they are attemmpting to add an issue already in the database
-function insertDuplicateIssueHtml(){
-	console.log("insertDuplicateIssueHtml function accessed");
-	$(".dup-issue-warning").html(
-		"   ! Issue already exists !"
-	);
-};
 
-//removes duplicate alert
-function removeDuplicateIssueHtml(){
-	$(".dup-issue-warning").html("");
+function validationError(inputArea){
+	switch (inputArea)
+	{
+		case "dup-ticket-number":
+			$(".dup-issue-warning").html(
+				"   ! Issue already exists"
+			);
+			break;
+		
+		case "missing-ticket-number":
+		$(".ticket-number-warning").html(
+			"   ! Please provide a Ticket Number"
+		);
+		break;
+		
+		case "issue-summary":
+			$(".issue-summary-warning").html(
+				"   ! Please provide an Issue Summary"
+			);
+			break;
+
+		case "customer-impact":
+			$(".cust-impact-warning").html(
+				"   ! Please choose at least one"
+			);
+			break;
+		
+		case "frequency":
+			$(".frequency-warning").html(
+				"   ! Please enter a number"
+			);
+			break;
+
+		case "affected-teams":
+			$(".affected-teams-warning").html(
+				"   ! Please choose at least one"
+			);
+			break;
+		
+		case "dev-team":
+			$(".dev-team-warning").html(
+				"   ! Please choose a valid option"
+			);
+			break;
+		
+		case "weekly-loss":
+			$(".weekly-loss-warning").html(
+				"   ! Please enter a number"
+			);
+			break;
+
+		case "clear":
+			$(".warning").html("")
+	}
 }
 
-//-- User Actions --
+//--## User Actions --
 
-//Create Issue - Modal is controlled by existing HTML. This submits values to POST route
+//Create - Modal is controlled by existing HTML. This submits values to POST route
 $("#issue-details").submit(function(event){
 	event.preventDefault();
-	console.log("new issue submitted");
 	
 	let custImpactData = getCustImpactDetails();
 	let affectedTeamData = getAffectedTeamData();
@@ -113,21 +154,29 @@ $("#issue-details").submit(function(event){
 		return teamArray;
 	};
 
-	let newIssueData = JSON.stringify(
-		{ 
-		ticketNumber: $('#new-ticket-num').val(),
-		issueSummary: $('#new-summary').val(),
-		customerImpact: custImpactData,
-		ticketOpenDate: $('#new-ticket-date').val(),
-		issueFrequency: parseInt($('#new-incident-count').val()),
-		affectedTeams: affectedTeamData,
-		assignedDevTeam: $('.dev-team').val(),
-		weeklyPotentialLoss: parseInt($('#new-weekly-loss').val())
-		});
-	
-	removeDuplicateIssueHtml();
-	
-	postNewIssue(newIssueData);
+	validationError("clear");
+ 
+	//Not sure how to clean this up
+	if (custImpactData.length === 0 ){
+		validationError("customer-impact");		
+	} else if (affectedTeamData.length === 0) {
+		validationError("affected-teams");
+	} else if ($('.dev-team').val() === "default"){
+		validationError("dev-team");
+	} else {
+		let newIssueData = JSON.stringify(
+			{ 
+			ticketNumber: $('#new-ticket-num').val(),
+			issueSummary: $('#new-summary').val(),
+			customerImpact: custImpactData,
+			ticketOpenDate: $('#new-ticket-date').val(),
+			issueFrequency: parseInt($('#new-incident-count').val()),
+			affectedTeams: affectedTeamData,
+			assignedDevTeam: $('.dev-team').val(),
+			weeklyPotentialLoss: parseInt($('#new-weekly-loss').val())
+			});
+		postNewIssue(newIssueData);
+	}
 });
 
 //Edit - pulls issue ID and calls GET connection
@@ -137,7 +186,7 @@ $(document).on("click", ".edit-button", function(event){
 });
 
 //Edit - creates modal and inserts info returned from GET route
-function editIssueModal (issueInfo){//Need: insert logic for affected teams & assigned dev team
+function editIssueModal (issueInfo){
 	const standardFormatDate = new Date(issueInfo.ticketOpenDate).toISOString().slice(0,10);
 
 	function loadEditModalHtml() {
@@ -145,16 +194,16 @@ function editIssueModal (issueInfo){//Need: insert logic for affected teams & as
 			`
 			<form id="edit-issue-form">
 				<div class="form-group">
-					<label for="edit-ticket-num" class="font-weight-bold">Ticket Number</label>
-					<input type="text" class="form-control" id="edit-ticket-num" value="${issueInfo.ticketNumber}">
+					<label for="edit-ticket-num" class="font-weight-bold">Ticket Number</label><span class="ticket-number-warning warning text-danger font-weight-bold"></span>
+					<input type="text" class="form-control " id="edit-ticket-num" value="${issueInfo.ticketNumber}" required>
 				</div>
 				<div class="form-group">
-					<label for="new-summary"class="font-weight-bold">Issue Summary</label>
-					<input type="textarea" class="form-control" id="edit-summary" value="${issueInfo.issueSummary}">
+					<label for="edit-summary" class="font-weight-bold">Issue Summary</label><span class="issue-summary-warning warning text-danger font-weight-bold"></span>
+					<textarea class="form-control" id="edit-summary" rows="3" required>${issueInfo.issueSummary}</textarea>
 				</div>
 				<div class="form-group">
 					<fieldset>
-						<p class="font-weight-bold">Customer Impact</p>
+						<p class="font-weight-bold">Customer Impact<span class="cust-impact-warning warning text-danger"></span></p>
 						<div class="form-check form-check-inline">
 							<input class="form-check-input edit-cust-impact" type="checkbox" id="edit-impactArea1" value="Impact Area 1">
 							<label class="form-check-label" for="edit-impactArea1">Impact Area 1</label>
@@ -179,15 +228,15 @@ function editIssueModal (issueInfo){//Need: insert logic for affected teams & as
 				</div>
 				<div class="form-group">
 					<label for="edit-ticket-date" class="font-weight-bold">Date Ticket Opened</label>
-					<input type="date" class="form-control" id="edit-ticket-date" value="${standardFormatDate}">
+					<input type="date" class="form-control" id="edit-ticket-date" value="${standardFormatDate}" required>
 				</div>
 				<div class="form-group">
-					<label for="edit-incident-count" class="font-weight-bold">Incidents per Week</label>
-					<input type="number" class="form-control" id="edit-incident-count" value="${issueInfo.issueFrequency}">
+					<label for="edit-incident-count" class="font-weight-bold">Incidents per Week</label><span class="text-danger frequency-warning warning font-weight-bold"></span>
+					<input type="number" class="form-control" id="edit-incident-count" value="${issueInfo.issueFrequency}" required>
 				</div>
 				<div class="form-group">
 				<fieldset>
-						<p class="font-weight-bold">Affected Teams</p>
+						<p class="font-weight-bold">Affected Teams<span class="affected-teams-warning warning text-danger"></span></p>
 						<div class="form-check form-check-inline">
 							<input class="form-check-input edit-affected-teams" type="checkbox" id="edit-team1" value="supportTeam1">
 							<label class="form-check-label" for="edit-team1">Support Team 1</label>
@@ -212,9 +261,9 @@ function editIssueModal (issueInfo){//Need: insert logic for affected teams & as
 				</div>
 				<div class="form-group">
 					<fieldset>
-						<p class="font-weight-bold">Assigned Dev Team</p>
+						<p class="font-weight-bold">Assigned Dev Team<span class="dev-team-warning warning text-danger font-weight-bold"></span></p>
 						<select class="custom-select edit-dev-team">
-							<option>Choose...</option>
+							<option value="default">Choose...</option>
 							<option value="Dev Team 1" id="edit-dev-team1">Dev Team 1</option>
 							<option value="Dev Team 2" id="edit-dev-team2">Dev Team 2</option>
 							<option value="Dev Team 3" id="edit-dev-team3">Dev Team 3</option>
@@ -224,8 +273,8 @@ function editIssueModal (issueInfo){//Need: insert logic for affected teams & as
 					</fieldset>
 				</div>
 				<div class="form-group">
-					<label for="edit-new-weekly-loss" class="font-weight-bold">Weekly Potential Loss</label>
-					<input type="number" class="form-control" id="edit-weekly-loss" value="${issueInfo.weeklyPotentialLoss}">
+					<label for="edit-new-weekly-loss" class="font-weight-bold">Weekly Potential Loss</label><span class="text-danger weekly-loss-warning warning font-weight-bold"></span>
+					<input type="number" class="form-control" id="edit-weekly-loss" value="${issueInfo.weeklyPotentialLoss}" required>
 				</div>
 				<div id="edit-confirmation"></div>
 				<div id="edit-form-buttons" class="text-center">
@@ -311,9 +360,8 @@ $(document).on("click", "#edit-submit-button", function(event){
 	)
 });
 
-//Edit - confirmed edit runs POST
+//Edit - confirmed. runs POST
 $(document).on("click", "#edit-confirm-button", function(event){
-	console.log("Confirm edit clicked");
 	event.preventDefault();
 	let custImpactData = getCustImpactDetails();
 	let affectedTeamData = getAffectedTeamData();
@@ -336,24 +384,43 @@ $(document).on("click", "#edit-confirm-button", function(event){
 		return teamArray;
 	};
 
-	let editIssueData = JSON.stringify(
-		{ 
-		ticketNumber: $('#edit-ticket-num').val(),
-		issueSummary: $('#edit-summary').val(),
-		customerImpact: custImpactData,
-		ticketOpenDate: $('#edit-ticket-date').val(),
-		issueFrequency: parseInt($('#edit-incident-count').val()),
-		affectedTeams: affectedTeamData,
-		assignedDevTeam: $('.edit-dev-team').val(),
-		weeklyPotentialLoss: parseInt($('#edit-weekly-loss').val())
-		});
-	updateIssue(editIssueData,issueId);
+	validationError("clear");
+	console.log($('.edit-dev-team').val())
+
+	//how can i make this better - it's doing a front end validation check for cleared fields
+	if ($('#edit-ticket-num').val() === ""){
+		validationError("missing-ticket-number");
+	} else if ($('#edit-summary').val() === ""){
+		validationError("issue-summary");
+	} else if (custImpactData.length === 0 ){
+		validationError("customer-impact");		
+	} else if ($('#edit-incident-count').val() === ""){
+		validationError("frequency");
+	} else if (affectedTeamData.length === 0) {
+		validationError("affected-teams");
+	} else if ($('.edit-dev-team').val() === "default"){
+		validationError("dev-team");
+	} else if ($('#edit-weekly-loss').val() === ""){
+		validationError("weekly-loss");
+	} else {
+		let editIssueData = JSON.stringify(
+			{ 
+			ticketNumber: $('#edit-ticket-num').val(),
+			issueSummary: $('#edit-summary').val(),
+			customerImpact: custImpactData,
+			ticketOpenDate: $('#edit-ticket-date').val(),
+			issueFrequency: parseInt($('#edit-incident-count').val()),
+			affectedTeams: affectedTeamData,
+			assignedDevTeam: $('.edit-dev-team').val(),
+			weeklyPotentialLoss: parseInt($('#edit-weekly-loss').val())
+			});
+		updateIssue(editIssueData,issueId);
+	}
 });
 
 //DELETE -   confirmation (trash can button submitted - this will create a modal asking user to confirm)
 $(document).on("click", ".delete-button", function(event){
 	let issueId = $(this).val();
-	console.log(issueId);
 	getDeleteConfirm(issueId);
 });
 //DELETE - executed (modal confirmation after trashcan button pushed)
@@ -374,7 +441,7 @@ $("#log-out-button").click(function(){
 	window.location.replace("index.html");
 });
 
-//-- Calculations --
+//--## Calculations --
 
 //Convert full date to simple date
 function convertDate(originalDate){
@@ -408,13 +475,10 @@ function calcTotalCost(totalLoss, teamCostTotal){
 	return totalCost;
 };
 
+//--## API CALLS --
 
-//-- API CALLS --
-
-//calls all open issues in DB
+//calls all issues in DB
 function getAllIssues(){
-    console.log (`getAllIssues function accessed`);
-
 	$.ajax({
 		type: "GET",
         url: issuesAPIUrl,
@@ -428,14 +492,11 @@ function getAllIssues(){
 
 //gets info for a single issue w/intent to edit
 function getSingleIssue(issueId){
-    console.log (`getSingleIssue function accessed`);
-	console.log (issueId);
 	$.ajax({
 		type: "GET",
         url: issuesAPIUrl + issueId,
         headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` },
 		success: function (res) {
-			console.log(res);
 			editIssueModal(res);
 		},
 		contentType : "application/json"
@@ -444,8 +505,6 @@ function getSingleIssue(issueId){
 
 //creates new issue
 function postNewIssue(newIssueData){
-    console.log (`postNewIssue function accessed`);
-
 	$.ajax({
         type: "POST",
         data: newIssueData,
@@ -459,9 +518,8 @@ function postNewIssue(newIssueData){
 			location.reload();
 		},
 		error: function(res){
-			console.log(res);
 			if (res.responseJSON.message == "Duplicate Ticket Number"){
-				insertDuplicateIssueHtml();
+				validationError("dup-ticket-number")
 			};
 		},
 		dataType: "json",
@@ -472,9 +530,6 @@ function postNewIssue(newIssueData){
 //updates a particular issue
 
 function updateIssue(updatedIssueData,issueId){
-	console.log (`updateIssue function accessed`);
-	console.log(issueId);
-
 	$.ajax({
         type: "PUT",
         data: updatedIssueData,
@@ -482,7 +537,12 @@ function updateIssue(updatedIssueData,issueId){
         headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` },
 		success: function(res){
 			$('#edit-issue-modal').modal('hide');
-			location.reload(true)
+			location.reload();
+		},
+		error: function(res){
+			if (res.responseJSON.message == "Duplicate Ticket Number"){
+				validationError("dup-ticket-number")
+			};
 		},
 		dataType: "json",
 		contentType : "application/json"
@@ -491,9 +551,6 @@ function updateIssue(updatedIssueData,issueId){
 
 //deletes issue 
 function deleteIssue(deletedIssueId){
-	console.log (`deleteIssue function accessed`);
-	console.log(deletedIssueId)
-
 	$.ajax({
         type: "DELETE",
         url: issuesAPIUrl + deletedIssueId,

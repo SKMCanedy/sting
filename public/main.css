@@ -36,11 +36,11 @@ h1{
 }
 
 h1:hover{
-    color:rgb(255, 230, 5);
+    color:#ffc107;
 }
 
 #logo-pic:hover {
-    content: url(https://png.icons8.com/metro/100/FFE600/wasp.png);
+    content: url(https://png.icons8.com/metro/100/FFC107/wasp.png);
 }
 
 input.form-control {
@@ -62,13 +62,13 @@ input.form-control {
     border-color: #000000;  
     -webkit-box-shadow: inset 0 1px 1px rgb(255, 230, 5), 0 0 8px rgba(255, 230, 5, 5); 
     box-shadow: inset 0 1px 1px rgba(255, 230, 5), 0 0 8px rgba(255, 230, 5, 5);
-    background-color: rgba(255, 230, 5);
+    background-color: #ffc107;
     
 } 
 
 .btn:hover, .btn:focus, .btn:active, .btn.active, .open>.dropdown-toggle.btn{
     color: #000000;
-    background-color:  rgb(255, 230, 5);
+    background-color:  #ffc107;
     border-color: #000000; 
 }
 .btn-secondary {
@@ -76,7 +76,7 @@ input.form-control {
 }
 
 .modal-backdrop.show {
-    background-color: rgb(255, 230, 0);
+    background-color: #ffc107;
     opacity: 0.7;
 }
 

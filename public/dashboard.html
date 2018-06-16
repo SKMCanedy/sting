@@ -12,6 +12,7 @@
     <link href="https://fonts.googleapis.com/css?family=Covered+By+Your+Grace" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Oswald:400,700" rel="stylesheet">  
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+    <link href="/bootstrap-glyphicons/css/bootstrap-modified.css" rel="stylesheet" type="text/css" />
 <!-- Main style sheet -->
     <link rel="stylesheet" type="text/css" media="screen" href="dashboard.css" />
 </head>
@@ -33,25 +34,26 @@
 <!-- Issue Tracker -->
     <main> 
 <div class="container">
-    <table class="table table-hover table-sm ml-1 text-center">
+    <table class="table table-hover table-sm" data-sorting="true" data-filtering="true" data-filter-dropdown-title="Search in:">
         <thead>
             <tr>
-            <th scope="col">Issue Ticket Number</th>
-            <th scope="col" data-breakpoints="xs">Issue Summary</th>
-            <th scope="col" data-breakpoints="xs sm md lg">Date Ticket Opened</th>
-            <th scope="col" data-breakpoints="xs">Customer Impact</th>
-            <th scope="col">Weeks Open</th>
-            <th scope="col" data-breakpoints="xs">Incidents per Week</th>
-            <th scope="col" data-breakpoints="xs sm md">Affected Teams</th>
-            <th scope="col" data-breakpoints="xs sm md">Assigned Dev Team</th>
-            <th scope="col" data-breakpoints="xs sm md lg">Weekly Potential Loss</th>
-            <th scope="col" data-breakpoints="xs sm md lg">Weekly Team Cost</th>
-            <th scope="col" data-breakpoints="xs">Weekly Total Cost</th>
-            <th scope="col" data-breakpoints="xs sm md lg">Total Potential Loss</th>
-            <th scope="col" data-breakpoints="xs sm md lg">Total Team Cost</th>
-            <th scope="col">Total Cost Since Reported</th>
-            <th scope="col" data-breakpoints="xs sm md">Last Modified By</th>
-            <th scope="col" class="px-3" data-breakpoints="xs sm">Actions</th>
+            <th scope="col"></th>
+            <th scope="col" class="pl-3 pr-4">Issue Ticket Number</th>
+            <th scope="col" class="pl-4 pr-4" data-breakpoints="xs">Issue Summary</th>
+            <th scope="col" class="pl-3 pr-4" data-breakpoints="xs sm md lg">Date Ticket Opened</th>
+            <th scope="col" class="pl-3 pr-4" data-breakpoints="xs">Customer Impact</th>
+            <th scope="col" class="pl-3 pr-4" >Weeks Open</th>
+            <th scope="col" class="pl-3 pr-4" data-type="numeric" data-breakpoints="xs">Incidents per Week</th>
+            <th scope="col" class="pl-3 pr-4" data-breakpoints="xs sm md">Affected Teams</th>
+            <th scope="col" class="pl-3 pr-4" data-breakpoints="xs sm md">Assigned Dev Team</th>
+            <th scope="col" class="pl-3 pr-4" data-type="numeric" data-breakpoints="xs sm md lg">Weekly Potential Loss</th>
+            <th scope="col" class="pl-3 pr-4" data-type="numeric" data-breakpoints="xs sm md lg">Weekly Team Cost</th>
+            <th scope="col" class="pl-3 pr-4" data-type="numeric" data-breakpoints="xs">Weekly Total Cost</th>
+            <th scope="col" class="pl-3 pr-4" data-type="numeric" data-breakpoints="xs sm md lg">Total Potential Loss</th>
+            <th scope="col" class="pl-3 pr-4" data-type="numeric" data-breakpoints="xs sm md lg">Total Team Cost</th>
+            <th scope="col" class="pl-3 pr-4" data-type="numeric" >Overall Cost</th>
+            <th scope="col" class="pl-3 pr-4" data-breakpoints="xs sm md">Last Modified By</th>
+            <th scope="col" class="pl-3 pr-4" data-breakpoints="xs sm">Actions</th>
             </tr>
         </thead>
 <!-- Dashboard Section -->
@@ -60,7 +62,7 @@
         </table>
     </div>
 
-<!-- Issue Details Form Modal HTML-->
+<!-- New Issue Form Modal-->
     <div class="modal fade" id="issue-details" tabindex="-1" role="dialog" aria-labelledby="addNewIssue" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -73,16 +75,16 @@
             <div class="modal-body">
                 <form id="issue-details-form">
                     <div class="form-group">
-                        <label for="new-ticket-num" class="font-weight-bold">Ticket Number</label><span class="text-danger dup-issue-warning"></span>
-                        <input type="text" class="form-control" id="new-ticket-num">
+                        <label for="new-ticket-num" class="font-weight-bold">Ticket Number</label><span class="text-danger dup-issue-warning warning font-weight-bold"></span>
+                        <input type="text" class="form-control" id="new-ticket-num" required>
                     </div>
                     <div class="form-group">
                         <label for="new-summary"class="font-weight-bold">Issue Summary</label>
-                        <input type="textarea" class="form-control" id="new-summary">
+                        <textarea class="form-control" id="new-summary" rows="3" required></textarea>
                     </div>
                     <div class="form-group">
                         <fieldset>
-                            <p class="font-weight-bold">Customer Impact</p>
+                            <p class="font-weight-bold">Customer Impact<span class="cust-impact-warning warning text-danger"></span></p>
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input cust-impact" type="checkbox" id="impactArea1" value="Impact Area 1">
                                 <label class="form-check-label" for="impactArea1">Impact Area 1</label>
@@ -107,15 +109,15 @@
                     </div>
                     <div class="form-group">
                         <label for="new-ticket-date" class="font-weight-bold">Date Ticket Opened</label>
-                        <input type="date" class="form-control" id="new-ticket-date">
+                        <input type="date" class="form-control" id="new-ticket-date" required>
                     </div>
                     <div class="form-group">
                         <label for="new-incident-count" class="font-weight-bold">Incidents per Week</label>
-                        <input type="number" class="form-control" id="new-incident-count">
+                        <input type="number" class="form-control" id="new-incident-count" required>
                     </div>
                     <div class="form-group">
                        <fieldset>
-                            <p class="font-weight-bold">Affected Teams</p>
+                            <p class="font-weight-bold">Affected Teams<span class="affected-teams-warning warning text-danger"></span></p>
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input affected-teams" type="checkbox" id="team1" value="supportTeam1">
                                 <label class="form-check-label" for="team1">Support Team 1</label>
@@ -140,9 +142,9 @@
                     </div>
                     <div class="form-group">
                         <fieldset>
-                            <p class="font-weight-bold">Assigned Dev Team</p>
+                            <p class="font-weight-bold">Assigned Dev Team<span class="dev-team-warning warning text-danger"></span></p>
                             <select class="custom-select dev-team">
-                                <option selected>Choose...</option>
+                                <option selected value="default">Choose...</option>
                                 <option value="Dev Team 1">Dev Team 1</option>
                                 <option value="Dev Team 2">Dev Team 2</option>
                                 <option value="Dev Team 3">Dev Team 3</option>
@@ -153,7 +155,7 @@
                     </div>
                     <div class="form-group">
                         <label for="new-weekly-loss" class="font-weight-bold">Weekly Potential Loss</label>
-                        <input type="number" class="form-control" id="new-weekly-loss">
+                        <input type="number" class="form-control" id="new-weekly-loss" required>
                     </div>
                     <div class="text-center">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
