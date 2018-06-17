@@ -540,9 +540,10 @@ function updateIssue(updatedIssueData,issueId){
 			location.reload();
 		},
 		error: function(res){
-			if (res.responseJSON.message == "Duplicate Ticket Number"){
-				validationError("dup-ticket-number")
-			};
+			console.log(res);
+			// if (res.responseJSON.message == "Duplicate Ticket Number"){
+			// 	validationError("dup-ticket-number")
+			// };
 		},
 		dataType: "json",
 		contentType : "application/json"
