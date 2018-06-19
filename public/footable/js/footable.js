@@ -2800,7 +2800,9 @@
 		 * @protected
 		 */
 		draw: function(){
-			this.ft.$el.removeClass(this._classNames).addClass('breakpoint-' + this.current.name);
+			if (this.current){
+				this.ft.$el.removeClass(this._classNames).addClass('breakpoint-' + this.current.name);
+			}
 		},
 
 		/* PUBLIC */
@@ -2826,6 +2828,7 @@
 			}
 			hidden.push(current.name);
 			self.hidden = hidden.join(' ');
+			self.current = current;
 			return current;
 		},
 		/**
@@ -6399,7 +6402,9 @@
 		 * Performs the drawing of the component.
 		 */
 		draw: function(){
-			this.$cell.attr('colspan', this.ft.columns.visibleColspan);
+			if (this.enabled){
+				this.$cell.attr('colspan', this.ft.columns.visibleColspan);
+			}
 		},
 		/**
 		 * Handles the edit button click event.
@@ -6543,7 +6548,7 @@
 	});
 
 	F.components.register('editing', F.Editing, 850);
-
+	
 })(jQuery, FooTable);
 
 (function($, F){

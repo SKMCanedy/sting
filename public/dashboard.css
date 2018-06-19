@@ -80,7 +80,7 @@ input.form-control {
 }
 
 td.footable-sortable > span.fooicon, th.footable-sortable > span.fooicon {
-    top: 90%;
+    top: 85%;
 }
 
 .table thead th {
@@ -94,6 +94,11 @@ td.footable-sortable > span.fooicon, th.footable-sortable > span.fooicon {
 .footable-first-visible{
     size:.1rem;
 }
+
+.table-sm td, .table-sm th {
+    padding: .75rem;
+}
+
 
 /* --- Responsive Formatting --- */
 

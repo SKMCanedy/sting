@@ -1,9 +1,5 @@
 "use strict";
 
-jQuery(function($){
-	$('.table').footable();
-});
-
 const issuesAPIUrl = "/api/issues/";
 
 function loadPage(){//need better auth check here
@@ -11,14 +7,114 @@ function loadPage(){//need better auth check here
         window.location.replace("index.html");
     }
 	else {
-		getAllIssues();
+        getAllIssues()
 	}
 }
 
+
+//loads dashboard table
+
+function loadTable(tableRows){
+    FooTable.init('.table', {
+        "columns": tableHeaders,
+        "rows": tableRows
+    });
+};
+
+
+const tableHeaders = [
+    {
+        "name": "expand",
+        "title": ""
+    },
+    {
+        "name": "ticketNumber",
+        "title": "Issue Ticket Number"
+    },
+    {
+        "name": "issueSummary",
+        "title": "Issue Summary",
+        "breakpoints":"xs"
+    },
+    {
+        "name": "ticketOpenDate",
+        "title": "Date Ticket Opened",
+        "breakpoints": "xs sm md lg"
+    },
+    {
+        "name": "customerImpact",
+        "title": "Customer Impact",
+        "breakpoints": "xs"
+    },
+    {
+        "name": "weeksOpen",
+        "title": "Weeks Open"
+    },
+    {
+        "name": "issueFrequency",
+        "title": "Incidents per Week",
+        "breakpoints": "xs"
+    },
+    {
+        "name": "affectedTeams",
+        "title": "Affected Teams",
+        "breakpoints": "xs sm md"
+    },
+    {
+        "name": "assignedDevTeam",
+        "title": "Assigned Dev Team",
+        "breakpoints": "xs sm md"
+    },
+    {
+        "name": "weeklyPotentialLoss",
+        "title": "Weekly Potential Loss",
+        "breakpoints": "xs sm md lg"
+    },
+    {
+        "name": "weeklyTeamCost",
+        "title": "Weekly Team Cost",
+        "breakpoints": "xs sm md lg"
+    },
+    {
+        "name": "weeklyTotalCost",
+        "title": "Weekly Total Cost",
+        "breakpoints": "xs"
+    },
+    {
+        "name": "totalLoss",
+        "title": "Total Potential Loss",
+        "breakpoints": "xs sm md lg"
+    },
+    {
+        "name": "totalTeamCost",
+        "title": "Total Team Cost",
+        "breakpoints": "xs sm md lg"
+    },
+    {
+        "name": "totalOverallCost",
+        "title": "Overall Cost"
+    },
+    {
+        "name": "modifiedBy",
+        "title": "Last Modified By",
+        "breakpoints": "xs sm md"
+    },
+    {
+        "name": "actions",
+        "title": "Actions",
+        "breakpoints": "xs sm"
+    }
+];
+
+
+
+
+
+
 //--## HTML DOM Manipulations --
 
-//updates DOM with a specific issue that has been added, changed, or deleted
-function loadIssue(res){
+//Calculates some of the fields and returns a data to propagate rows
+function calcFields(res){
 	for (let i = 0; i < res.length; i++){
 		const simpleDate = convertDate(res[i].ticketOpenDate);
 		const weeksOpen = calcWeeksOpen(simpleDate);
@@ -26,7 +122,10 @@ function loadIssue(res){
 		const totalTeamCost = calcTotalTeamCost(res[i].weeklyTeamCost, weeksOpen);
 		const totalOverallCost = calcTotalCost(totalLoss, totalTeamCost);
 		const customerImpactHtml = createCustImpactHtml(res[i].customerImpact);
-		const affectedTeamsHtml = createTeamsHtml(res[i].affectedTeams);
+        const affectedTeamsHtml = createTeamsHtml(res[i].affectedTeams);
+        const actions = `
+            <button type="button" class="btn edit-button action-button" value="${res[i].id}"><span class="fas fa-pencil-alt" title="Edit"></span></button>
+            <button type="button" class="btn delete-button action-button" value="${res[i].id}"><span class="fas fa-trash-alt" title="Delete"></span></button>`;
 		
 		function createCustImpactHtml(issueDetails){
 			let custImpactHtml="";
@@ -42,33 +141,45 @@ function loadIssue(res){
 				supportTeamHtml = supportTeamHtml +`<p>${issueDetails[t]}</p>`;
 			};
 			return supportTeamHtml;
-		};
+        };
 
-		$("#dashboard-body").append(
-			`<tr>
-				<td> </td>
-				<td class="text-left px-3">${res[i].ticketNumber}</td>
-				<td class="px-4">${res[i].issueSummary}</td>
-				<td class="px-3">${simpleDate}</td>
-				<td class="px-3">${customerImpactHtml}</td>
-				<td class="px-3">${weeksOpen}</td>
-				<td class="px-3">${res[i].issueFrequency}</td>
-				<td class="px-3">${affectedTeamsHtml}</td>
-				<td class="px-3">${res[i].assignedDevTeam}</td>
-				<td class="px-3" data-sort-value="${res[i].weeklyPotentialLoss}">$${res[i].weeklyPotentialLoss}</td>
-				<td class="px-3" data-sort-value="${res[i].weeklyTeamCost}">$${res[i].weeklyTeamCost}</td>
-				<td class="px-3" data-sort-value="${res[i].weeklyTotalCost}">$${res[i].weeklyTotalCost}</td>
-				<td class="px-3" data-sort-value="${totalLoss}">$${totalLoss}</td>
-				<td class="px-3" data-sort-value="${totalTeamCost}">$${totalTeamCost}</td>
-				<td class="px-3" data-sort-value="${totalOverallCost}">$${totalOverallCost}</td>
-				<td class="px-3">${res[i].modifiedBy}</td>
-				<td>
-				<button type="button" class="btn edit-button action-button" value="${res[i].id}"><span class="fas fa-pencil-alt" title="Edit"></span></button>
-				<button type="button" class="btn delete-button action-button" value="${res[i].id}"><span class="fas fa-trash-alt" title="Delete"></span></button>
-				</td>
-			</tr>`
-		);
-	};
+        //update object to include calculated values 
+        res[i].ticketOpenDate = simpleDate;
+        res[i].weeksOpen = weeksOpen;
+        res[i].totalLoss = totalLoss;
+        res[i].totalTeamCost = totalTeamCost;
+        res[i].totalOverallCost = totalOverallCost;
+        res[i].customerImpact = customerImpactHtml;
+        res[i].affectedTeams = affectedTeamsHtml;
+        res[i].actions = actions;
+        res[i].expand = "";
+		// $(".table").append(
+		// 	`<tr>
+		// 		<td> </td>
+		// 		<td class="text-left px-3">${res[i].ticketNumber}</td>
+		// 		<td class="px-4">${res[i].issueSummary}</td>
+		// 		<td class="px-3">${simpleDate}</td>
+		// 		<td class="px-3">${customerImpactHtml}</td>
+		// 		<td class="px-3">${weeksOpen}</td>
+		// 		<td class="px-3">${res[i].issueFrequency}</td>
+		// 		<td class="px-3">${affectedTeamsHtml}</td>
+		// 		<td class="px-3">${res[i].assignedDevTeam}</td>
+		// 		<td class="px-3" data-sort-value="${res[i].weeklyPotentialLoss}">$${res[i].weeklyPotentialLoss}</td>
+		// 		<td class="px-3" data-sort-value="${res[i].weeklyTeamCost}">$${res[i].weeklyTeamCost}</td>
+		// 		<td class="px-3" data-sort-value="${res[i].weeklyTotalCost}">$${res[i].weeklyTotalCost}</td>
+		// 		<td class="px-3" data-sort-value="${totalLoss}">$${totalLoss}</td>
+		// 		<td class="px-3" data-sort-value="${totalTeamCost}">$${totalTeamCost}</td>
+		// 		<td class="px-3" data-sort-value="${totalOverallCost}">$${totalOverallCost}</td>
+		// 		<td class="px-3">${res[i].modifiedBy}</td>
+		// 		<td>
+		// 		<button type="button" class="btn delete-button action-button" value="${res[i].id}"><span class="fas fa-trash-alt" title="Delete"></span></button>
+		// 		</td>
+		// 	</tr>`
+        // );
+    };
+    loadTable(res);
+    console.log(res)
+
 };
 
 //alerts user if they are attemmpting to add an issue already in the database
@@ -484,7 +595,7 @@ function getAllIssues(){
         url: issuesAPIUrl,
         headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` },
 		success: function (res) {
-			loadIssue(res);
+			calcFields(res);
 		},
 		contentType : "application/json"
 	});
