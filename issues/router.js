@@ -58,8 +58,6 @@ router.post('/', jwtAuth, (req,res) => {
         else {
             res.status(500).json({message: 'Internal server error'});
         }
-        console.error(err);
-        console.error(err.code);
     });
 });
 
@@ -69,14 +67,20 @@ router.post('/', jwtAuth, (req,res) => {
 router.put('/:id', jwtAuth, (req,res) => {
     console.log("PUT Route accessed");
     let issueNewDetails = req.body;
-    issueNewDetails.weeklyTeamCost = getTeamCost(req.body.affectedTeams);
+    issueNewDetails.weeklyTeamCost = getWeeklyTeamCost(req.body.affectedTeams,req.body.issueFrequency);
     issueNewDetails.weeklyTotalCost = getWeeklyTotalCost(req.body.affectedTeams, req.body.issueFrequency, req.body.weeklyPotentialLoss);
     issueNewDetails.modifiedBy = req.user.username;
     
     Issue
     .findByIdAndUpdate (req.params.id, issueNewDetails, {new: true}, (err, issue) => {
-        return res.send(issue);
-    });
+        if (issue){
+            return res.send(issue);
+        }
+
+        if (err.code == 11000){
+            return res.status(500).json({message: 'Duplicate Ticket Number'});
+        } 
+    })
 });
 
 router.delete('/:id', jwtAuth, (req,res)=> {
