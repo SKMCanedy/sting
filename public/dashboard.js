@@ -7,20 +7,25 @@ const issuesAPIUrl = "/api/issues/";
 const tableHeaders = [
 	{
         "name": "expand",
-        "title": ""
+		"title": "",
+		"filterable": false,
+		"sortable": false
     },
     {
         "name": "ticketNumber",
-        "title": "Issue Ticket Number"
+		"title": "Issue Ticket Number",
+		"type": "text"
     },
     {
         "name": "issueSummary",
-        "title": "Issue Summary",
+		"title": "Issue Summary",
+		"type": "text",
         "breakpoints":"xxs xs"
     },
     {
         "name": "ticketOpenDate",
-        "title": "Date Ticket Opened",
+		"title": "Date Ticket Opened",
+		"type": "date",
         "breakpoints": "xxs xs sml med lar xl"
     },
     {
@@ -30,11 +35,13 @@ const tableHeaders = [
     },
     {
         "name": "weeksOpen",
-        "title": "Weeks Open"
+		"title": "Weeks Open",
+		"type": "number"
     },
     {
         "name": "issueFrequency",
-        "title": "Incidents per Week",
+		"title": "Incidents per Week",
+		"type": "number",
         "breakpoints": "xxs xs sm"
     },
     {
@@ -44,47 +51,60 @@ const tableHeaders = [
     },
     {
         "name": "assignedDevTeam",
-        "title": "Assigned Dev Team",
+		"title": "Assigned Dev Team",
+		"type": "text",
         "breakpoints": "xxs xs"
     },
     {
         "name": "weeklyPotentialLoss",
-        "title": "Weekly Potential Loss",
+		"title": "Weekly Potential Loss($)",
+		"type": "number",
         "breakpoints": "xxs xs sml med lar xl"
     },
     {
         "name": "weeklyTeamCost",
-        "title": "Weekly Team Cost",
+		"title": "Weekly Team Cost($)",
+		"type": "number",
         "breakpoints": "xxs xs sml med lar xl"
     },
     {
         "name": "weeklyTotalCost",
-        "title": "Weekly Total Cost",
+		"title": "Weekly Total Cost($)",
+		"type": "number",
         "breakpoints": "xxs xs sml"
     },
     {
         "name": "totalLoss",
-        "title": "Total Potential Loss",
+		"title": "Total Potential Loss($)",
+		"type": "number",
         "breakpoints": "xxs xs sml med lar xl"
     },
     {
         "name": "totalTeamCost",
-        "title": "Total Team Cost",
+		"title": "Total Team Cost($)",
+		"type": "number",
         "breakpoints": "xxs xs sml med lar xl"
     },
     {
         "name": "totalOverallCost",
-        "title": "Overall Cost"
+		"title": "Overall Cost($)",
+		"type": "number",
     },
     {
         "name": "modifiedBy",
-        "title": "Last Modified By",
+		"title": "Last Modified By",
+		"type": "text",
         "breakpoints": "xxs xs sml med lar"
     },
     {
         "name": "actions",
         "title": "Actions",
-        "breakpoints": "xxs xs sml"
+		"breakpoints": "xxs xs sml",
+		"filterable": false,
+		"sortable": false,
+		"style": {
+			"width": 100,
+			}
     }
 ];
 
@@ -125,8 +145,6 @@ function loadTable(tableRows){
 	});
 };
 
-// $('.footable').trigger('footable_redraw'); 
-// $('.footable').trigger('footable_resize');
 
 //alerts user if they are attemmpting to add an issue already in the database
 
