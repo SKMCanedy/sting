@@ -72,7 +72,7 @@ input.form-control {
     border-color: #000000; 
 }
 .btn-secondary {
-    background-color: rgb(255, 82, 51);
+    background-color:#DF2300;
 }
 
 .modal-backdrop.show {
@@ -82,6 +82,11 @@ input.form-control {
 
 .modal-color{
     color: #000000;
+}
+
+.modal-header {
+    border-color: #000000;
+    font-size: 1.5rem;
 }
 
 /* --- Media Queries --- */

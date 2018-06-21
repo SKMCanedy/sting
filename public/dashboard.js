@@ -118,14 +118,6 @@ function loadPage(){
 	}
 }
 
-// $(window).bind('resize', function(e)
-// {
-//   console.log('window resized..');
-//   this.location.reload(false); /* false to get page from cache */
-//   /* true to fetch page from server */
-// });
-
-
 //--## HTML DOM Manipulations --
 
 //loads dashboard table; called after app gets issues and calculates additional values
@@ -337,7 +329,7 @@ function editIssueModal (issueInfo){
 				<div class="form-group">
 					<fieldset>
 						<p class="font-weight-bold">Assigned Dev Team<span class="dev-team-warning warning text-danger font-weight-bold"></span></p>
-						<select class="custom-select edit-dev-team">
+						<select class="custom-select edit-dev-team" aria-label="Dev teams options>
 							<option value="default">Choose...</option>
 							<option value="Dev Team 1" id="edit-dev-team1">Dev Team 1</option>
 							<option value="Dev Team 2" id="edit-dev-team2">Dev Team 2</option>
@@ -349,12 +341,12 @@ function editIssueModal (issueInfo){
 				</div>
 				<div class="form-group">
 					<label for="edit-new-weekly-loss" class="font-weight-bold">Weekly Potential Loss</label><span class="text-danger weekly-loss-warning warning font-weight-bold"></span>
-					<input type="number" class="form-control" id="edit-weekly-loss" value="${issueInfo.weeklyPotentialLoss}" required>
+					<input type="number" class="form-control" id="edit-weekly-loss" value="${issueInfo.weeklyPotentialLoss}" required aria-label="weekly loss">
 				</div>
 				<div id="edit-confirmation"></div>
 				<div id="edit-form-buttons" class="text-center">
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-					<button type="submit" class="btn btn-primary" id="edit-submit-button" value="${issueInfo.id}">Edit Issue</button>
+					<button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Cancel">Cancel</button>
+					<button type="submit" class="btn btn-primary" id="edit-submit-button" value="${issueInfo.id}" aria-label="Edit">Edit Issue</button>
 				</div>
 			</form>
 	
@@ -428,8 +420,8 @@ $(document).on("click", "#edit-submit-button", function(event){
 		`
 		<p class="text-danger">Are you sure you want to commit these changes?</p>
 		<div id="edit-confirmation-buttons" class="text-center">
-			<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-			<button type="submit" class="btn btn-primary" id="edit-confirm-button">Confirm Changes</button>
+			<button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Cancel">Cancel</button>
+			<button type="submit" class="btn btn-primary" id="edit-confirm-button" aria-label="Confirm Changes">Confirm Changes</button>
 		</div>
 		`
 	)
@@ -460,7 +452,6 @@ $(document).on("click", "#edit-confirm-button", function(event){
 	};
 
 	validationError("clear");
-	console.log($('.edit-dev-team').val())
 
 	//Will need to clean up in phase two. Possible put into object literal and iterate over it
 	if ($('#edit-ticket-num').val() === ""){
@@ -562,8 +553,8 @@ function calcFields(res){
 		const customerImpactHtml = createCustImpactHtml(res[i].customerImpact);
         const affectedTeamsHtml = createTeamsHtml(res[i].affectedTeams);
         const actions = `
-            <button type="button" class="btn edit-button action-button" value="${res[i].id}"><span class="fas fa-pencil-alt" title="Edit"></span></button>
-            <button type="button" class="btn delete-button action-button" value="${res[i].id}"><span class="fas fa-trash-alt" title="Delete"></span></button>`;
+            <button type="button" class="btn edit-button action-button" value="${res[i].id}"><span class="fas fa-pencil-alt" title="Edit" aria-label="Edit"></span></button>
+            <button type="button" class="btn delete-button action-button" value="${res[i].id}"><span class="fas fa-trash-alt" title="Delete" aria-label="Delete"></span></button>`;
 		
 		function createCustImpactHtml(issueDetails){
 			let custImpactHtml="";
@@ -593,8 +584,6 @@ function calcFields(res){
         res[i].expand = "";
     };
     loadTable(res);
-    console.log(res)
-
 };
 
 //--## API CALLS --
@@ -662,7 +651,6 @@ function updateIssue(updatedIssueData,issueId){
 			location.reload();
 		},
 		error: function(res){
-			console.log(res);
 			if (res.responseJSON.message == "Duplicate Ticket Number"){
 				validationError("dup-ticket-number", )
 			};

@@ -4010,7 +4010,7 @@
 			var self = this;
 			// generate the cell that actually contains all the UI.
 			var $form_grp = $('<div/>', {'class': 'form-group footable-filtering-search'})
-					.append($('<label/>', {'class': 'sr-only', text: 'Search'})),
+					.append($('<label/>', {'class': 'sr-only', text: 'Search','aria-label':'Search'})),
 				$input_grp = $('<div/>', {'class': 'input-group'}).appendTo($form_grp),
 				$input_grp_btn = $('<div/>', {'class': 'input-group-btn'}),
 				$dropdown_toggle = $('<button/>', {type: 'button', 'class': 'btn btn-default dropdown-toggle'})
@@ -4036,9 +4036,9 @@
 			}
 			self.$form = $('<form/>', {'class': 'form-inline'}).append($form_grp).appendTo(self.$container);
 
-			self.$input = $('<input/>', {type: 'text', 'class': 'form-control', placeholder: self.placeholder});
+			self.$input = $('<input/>', {type: 'text', 'class': 'form-control', placeholder: self.placeholder, "aria-label":"Search Box"});
 
-			self.$button = $('<button/>', {type: 'button', 'class': 'btn btn-primary'})
+			self.$button = $('<button/>', {type: 'button', 'class': 'btn btn-primary', "aria-label":"Search"})
 				.on('click', { self: self }, self._onSearchButtonClicked)
 				.append($('<span/>', {'class': 'fooicon fooicon-search'}));
 

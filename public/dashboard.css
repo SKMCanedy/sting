@@ -1,11 +1,15 @@
 /* --- General Formatting --- */
 
-body, .btn, .modal-header{
+body, .modal-header{
     font-family: 'Oswald', sans-serif;
     font-size: 1rem;
 }
 
-header {
+.btn {
+    font-size: 1.2rem;
+}
+
+header, {
     font-size: 1.25rem;
 }
 
@@ -25,11 +29,11 @@ header {
 .btn:hover, .btn:focus, .btn:active, .btn.active, .open>.dropdown-toggle.btn{
     color: #000000;
     background-color: #ffc107;
-    border-color: #000000; /*set the color you want here*/
+    border-color: #000000;
 }
 
 .btn-secondary {
-    background-color: rgb(255, 82, 51);
+    background-color: #DF2300;
 }
 
 /* --- Header Formatting --- */
@@ -58,6 +62,7 @@ input.form-control {
 
 .modal-header {
     border-color: #000000;
+    font-size: 1.5rem;
 }
 
 /* --- Table Formatting --- */
@@ -123,10 +128,10 @@ td.footable-sortable > span.fooicon, th.footable-sortable > span.fooicon {
 
 /* Medium devices (landscape tablets, 768px and up) */
 @media only screen and (min-width: 768px) {
-    /* .footable-filtering-search {
+    .footable-filtering-search {
         margin-left: auto;
         margin-right: 2px;
-    } */
+    }
 }
 
 /* Large devices (laptops/desktops, 992px and up) */
