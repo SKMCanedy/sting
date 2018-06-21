@@ -5,6 +5,10 @@ body, .btn, .modal-header{
     font-size: 1rem;
 }
 
+header {
+    font-size: 1.25rem;
+}
+
 .navbar, .btn-primary{
     background-color: #000000;
     color: #FFFFFF;
@@ -53,8 +57,6 @@ input.form-control {
 } 
 
 .modal-header {
-    /* color: #ffc107;
-    background-color: #000000; */
     border-color: #000000;
 }
 
@@ -64,7 +66,7 @@ input.form-control {
     display: none;
 }
 
-.footable-filtering-search{
+.footable-filtering-search {
     margin: auto;
     padding-top: .5rem;
     padding-bottom: .5rem;
@@ -80,7 +82,7 @@ input.form-control {
 }
 
 td.footable-sortable > span.fooicon, th.footable-sortable > span.fooicon {
-    top: 90%;
+    top: 85%;
 }
 
 .table thead th {
@@ -95,6 +97,18 @@ td.footable-sortable > span.fooicon, th.footable-sortable > span.fooicon {
     size:.1rem;
 }
 
+.table-sm td, .table-sm th {
+    padding: .75rem;
+}
+
+.table-div header{
+    padding: 0px;
+}
+
+.container {
+    max-width: 98%;
+    margin-top: 1%;
+  }
 /* --- Responsive Formatting --- */
 
 /* Extra small devices (phones, 600px and down) */
@@ -104,50 +118,41 @@ td.footable-sortable > span.fooicon, th.footable-sortable > span.fooicon {
 
 /* Small devices (portrait tablets and large phones, 600px and up) */
 @media only screen and (min-width: 600px) {
-    .move-right{
-        float: right;
-    }
 
-    .search-box {
-        float: right;
-        font-size: 1.2rem;
-    }
 } 
 
 /* Medium devices (landscape tablets, 768px and up) */
 @media only screen and (min-width: 768px) {
+    /* .footable-filtering-search {
+        margin-left: auto;
+        margin-right: 2px;
+    } */
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
     .logo-image{
-        width: 4rem;
-    }
-    
-    .logo-text{
-        font-family: 'Covered By Your Grace', cursive;
-        font-size: 3rem;
+        width: 3.5rem;
     }
 
-    .header-text{
+    .logo-text{
+        font-size: 2.5rem;
+    }
+
+    header {
         font-size: 1.5rem;
     }
 
     th {
-    font-size: 1.1rem;
-    }
-} 
-
-/* Large devices (laptops/desktops, 992px and up) */
-@media only screen and (min-width: 992px) {
-    td {
-        font-size: 1.2rem;
+        font-size: 1.1rem;
     }
 
-    .fooicon-plus{
-        font-size:1rem;
-    }
 } 
 
 /* Extra large devices (large laptops and desktops, 1200px and up) */
 @media only screen and (min-width: 1200px) {
-    .container {
-        max-width: 98%;
-      }
+
+    td {
+        font-size: 1.1rem;
+    }
 }

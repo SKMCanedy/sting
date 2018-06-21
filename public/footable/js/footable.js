@@ -4019,11 +4019,11 @@
 				position;
 
 			switch (self.position){
-				case 'left': position = 'footable-filtering-right'; break;
-				case 'center': position = 'footable-filtering-right'; break;
+				case 'left': position = 'footable-filtering-left'; break;
+				case 'center': position = 'footable-filtering-center'; break;
 				default: position = 'footable-filtering-right'; break;
 			}
-			self.ft.$el.addClass('footable-filtering-right').addClass(position);
+			self.ft.$el.addClass('footable-filtering').addClass(position);
 
 			self.$container = self.container === null ? $() : $(self.container).first();
 			if (!self.$container.length){
@@ -4034,7 +4034,7 @@
 			} else {
 				self.$container.addClass('footable-filtering-external').addClass(position);
 			}
-			self.$form = $('<form/>', {'class': 'form-inline search-box'}).append($form_grp).appendTo(self.$container);
+			self.$form = $('<form/>', {'class': 'form-inline'}).append($form_grp).appendTo(self.$container);
 
 			self.$input = $('<input/>', {type: 'text', 'class': 'form-control', placeholder: self.placeholder});
 
@@ -7328,9 +7328,11 @@
 	};
 
 	// override the base method for DateColumns
-	F.DateColumn.prototype.stringify = function(value, options, rowData){
-		return F.is.object(value) && F.is.boolean(value._isAMomentObject) && value.isValid() ? value.format(this.formatString) : '';
-	};
+	if (F.DateColumn != undefined) {
+		F.DateColumn.prototype.stringify = function (value, options, rowData) {
+			return F.is.object(value) && F.is.boolean(value._isAMomentObject) && value.isValid() ? value.format(this.formatString) : '';
+		};
+	}
 
 	// override the base method for ObjectColumns
 	F.ObjectColumn.prototype.stringify = function(value, options, rowData){

@@ -1,75 +1,150 @@
 "use strict";
 
-jQuery(function($){
-	$('.table').footable();
-});
+//--## Global Variables --
 
 const issuesAPIUrl = "/api/issues/";
 
-function loadPage(){//need better auth check here
+const tableHeaders = [
+	{
+        "name": "expand",
+		"title": "",
+		"filterable": false,
+		"sortable": false
+    },
+    {
+        "name": "ticketNumber",
+		"title": "Issue Ticket Number",
+		"type": "text"
+    },
+    {
+        "name": "issueSummary",
+		"title": "Issue Summary",
+		"type": "text",
+        "breakpoints":"xxs xs"
+    },
+    {
+        "name": "ticketOpenDate",
+		"title": "Date Ticket Opened",
+		"type": "date",
+        "breakpoints": "xxs xs sml med lar xl"
+    },
+    {
+        "name": "customerImpact",
+        "title": "Customer Impact",
+        "breakpoints": "xxs xs sml med"
+    },
+    {
+        "name": "weeksOpen",
+		"title": "Weeks Open",
+		"type": "number"
+    },
+    {
+        "name": "issueFrequency",
+		"title": "Incidents per Week",
+		"type": "number",
+        "breakpoints": "xxs xs sm"
+    },
+    {
+        "name": "affectedTeams",
+        "title": "Affected Teams",
+        "breakpoints": "xxs xs sml med lar"
+    },
+    {
+        "name": "assignedDevTeam",
+		"title": "Assigned Dev Team",
+		"type": "text",
+        "breakpoints": "xxs xs"
+    },
+    {
+        "name": "weeklyPotentialLoss",
+		"title": "Weekly Potential Loss($)",
+		"type": "number",
+        "breakpoints": "xxs xs sml med lar xl"
+    },
+    {
+        "name": "weeklyTeamCost",
+		"title": "Weekly Team Cost($)",
+		"type": "number",
+        "breakpoints": "xxs xs sml med lar xl"
+    },
+    {
+        "name": "weeklyTotalCost",
+		"title": "Weekly Total Cost($)",
+		"type": "number",
+        "breakpoints": "xxs xs sml"
+    },
+    {
+        "name": "totalLoss",
+		"title": "Total Potential Loss($)",
+		"type": "number",
+        "breakpoints": "xxs xs sml med lar xl"
+    },
+    {
+        "name": "totalTeamCost",
+		"title": "Total Team Cost($)",
+		"type": "number",
+        "breakpoints": "xxs xs sml med lar xl"
+    },
+    {
+        "name": "totalOverallCost",
+		"title": "Overall Cost($)",
+		"type": "number",
+    },
+    {
+        "name": "modifiedBy",
+		"title": "Last Modified By",
+		"type": "text",
+        "breakpoints": "xxs xs sml med lar"
+    },
+    {
+        "name": "actions",
+        "title": "Actions",
+		"breakpoints": "xxs xs sml",
+		"filterable": false,
+		"sortable": false,
+		"style": {
+			"width": 100,
+			}
+    }
+];
+
+
+function loadPage(){
 	if (localStorage.token === "undefined") {
         window.location.replace("index.html");
     }
 	else {
-		getAllIssues();
+        getAllIssues()
 	}
 }
 
+// $(window).bind('resize', function(e)
+// {
+//   console.log('window resized..');
+//   this.location.reload(false); /* false to get page from cache */
+//   /* true to fetch page from server */
+// });
+
+
 //--## HTML DOM Manipulations --
 
-//updates DOM with a specific issue that has been added, changed, or deleted
-function loadIssue(res){
-	for (let i = 0; i < res.length; i++){
-		const simpleDate = convertDate(res[i].ticketOpenDate);
-		const weeksOpen = calcWeeksOpen(simpleDate);
-		const totalLoss = calcTotalPotentialLoss(res[i].weeklyPotentialLoss, weeksOpen);
-		const totalTeamCost = calcTotalTeamCost(res[i].weeklyTeamCost, weeksOpen);
-		const totalOverallCost = calcTotalCost(totalLoss, totalTeamCost);
-		const customerImpactHtml = createCustImpactHtml(res[i].customerImpact);
-		const affectedTeamsHtml = createTeamsHtml(res[i].affectedTeams);
-		
-		function createCustImpactHtml(issueDetails){
-			let custImpactHtml="";
-			for (let t = 0; t<issueDetails.length; t++){
-				custImpactHtml = custImpactHtml +`<p>${issueDetails[t]}</p>`;
-			};
-			return custImpactHtml;
-		};
-		
-		function createTeamsHtml(issueDetails){
-			let supportTeamHtml="";
-			for (let t = 0; t<issueDetails.length; t++){
-				supportTeamHtml = supportTeamHtml +`<p>${issueDetails[t]}</p>`;
-			};
-			return supportTeamHtml;
-		};
+//loads dashboard table; called after app gets issues and calculates additional values
 
-		$("#dashboard-body").append(
-			`<tr>
-				<td> </td>
-				<td class="text-left px-3">${res[i].ticketNumber}</td>
-				<td class="px-4">${res[i].issueSummary}</td>
-				<td class="px-3">${simpleDate}</td>
-				<td class="px-3">${customerImpactHtml}</td>
-				<td class="px-3">${weeksOpen}</td>
-				<td class="px-3">${res[i].issueFrequency}</td>
-				<td class="px-3">${affectedTeamsHtml}</td>
-				<td class="px-3">${res[i].assignedDevTeam}</td>
-				<td class="px-3" data-sort-value="${res[i].weeklyPotentialLoss}">$${res[i].weeklyPotentialLoss}</td>
-				<td class="px-3" data-sort-value="${res[i].weeklyTeamCost}">$${res[i].weeklyTeamCost}</td>
-				<td class="px-3" data-sort-value="${res[i].weeklyTotalCost}">$${res[i].weeklyTotalCost}</td>
-				<td class="px-3" data-sort-value="${totalLoss}">$${totalLoss}</td>
-				<td class="px-3" data-sort-value="${totalTeamCost}">$${totalTeamCost}</td>
-				<td class="px-3" data-sort-value="${totalOverallCost}">$${totalOverallCost}</td>
-				<td class="px-3">${res[i].modifiedBy}</td>
-				<td>
-				<button type="button" class="btn edit-button action-button" value="${res[i].id}"><span class="fas fa-pencil-alt" title="Edit"></span></button>
-				<button type="button" class="btn delete-button action-button" value="${res[i].id}"><span class="fas fa-trash-alt" title="Delete"></span></button>
-				</td>
-			</tr>`
-		);
-	};
+function loadTable(tableRows){
+    FooTable.init('.table', {
+        "columns": tableHeaders,
+		"rows": tableRows,
+		"breakpoints": {
+			"xxs": 480,
+			"xs": 600,
+			"sml": 768,
+			"med": 992,
+			"lar": 1200,
+			"xl": 1400
+		}
+	});
 };
+
 
 //alerts user if they are attemmpting to add an issue already in the database
 
@@ -131,7 +206,7 @@ function validationError(inputArea){
 
 //--## User Actions --
 
-//Create - Modal is controlled by existing HTML. This submits values to POST route
+//Create Issue - Modal is controlled by existing HTML. This submits values to POST route
 $("#issue-details").submit(function(event){
 	event.preventDefault();
 	
@@ -156,7 +231,7 @@ $("#issue-details").submit(function(event){
 
 	validationError("clear");
  
-	//Not sure how to clean this up
+
 	if (custImpactData.length === 0 ){
 		validationError("customer-impact");		
 	} else if (affectedTeamData.length === 0) {
@@ -179,13 +254,13 @@ $("#issue-details").submit(function(event){
 	}
 });
 
-//Edit - pulls issue ID and calls GET connection
+//Edit Issue - pulls issue ID and calls GET connection
 $(document).on("click", ".edit-button", function(event){
 	const issueId = $(this).val();
 	getSingleIssue(issueId);
 });
 
-//Edit - creates modal and inserts info returned from GET route
+//Edit Issue - creates modal and inserts info returned from GET route
 function editIssueModal (issueInfo){
 	const standardFormatDate = new Date(issueInfo.ticketOpenDate).toISOString().slice(0,10);
 
@@ -194,7 +269,7 @@ function editIssueModal (issueInfo){
 			`
 			<form id="edit-issue-form">
 				<div class="form-group">
-					<label for="edit-ticket-num" class="font-weight-bold">Ticket Number</label><span class="ticket-number-warning warning text-danger font-weight-bold"></span>
+					<label for="edit-ticket-num" class="font-weight-bold">Ticket Number</label><span class="text-danger dup-issue-warning warning font-weight-bold"></span>
 					<input type="text" class="form-control " id="edit-ticket-num" value="${issueInfo.ticketNumber}" required>
 				</div>
 				<div class="form-group">
@@ -345,7 +420,7 @@ function editIssueModal (issueInfo){
 	showModal();
 }
 
-//Edit - submit confirmation (this will insert html to confirm user wants to submit)
+//Edit Issue - submit confirmation (this will insert html to confirm user wants to submit)
 $(document).on("click", "#edit-submit-button", function(event){
 	event.preventDefault();
 	$("#edit-form-buttons").addClass("collapse")
@@ -360,7 +435,7 @@ $(document).on("click", "#edit-submit-button", function(event){
 	)
 });
 
-//Edit - confirmed. runs POST
+//Edit Issue - confirmed. runs PUT
 $(document).on("click", "#edit-confirm-button", function(event){
 	event.preventDefault();
 	let custImpactData = getCustImpactDetails();
@@ -387,7 +462,7 @@ $(document).on("click", "#edit-confirm-button", function(event){
 	validationError("clear");
 	console.log($('.edit-dev-team').val())
 
-	//how can i make this better - it's doing a front end validation check for cleared fields
+	//Will need to clean up in phase two. Possible put into object literal and iterate over it
 	if ($('#edit-ticket-num').val() === ""){
 		validationError("missing-ticket-number");
 	} else if ($('#edit-summary').val() === ""){
@@ -418,12 +493,12 @@ $(document).on("click", "#edit-confirm-button", function(event){
 	}
 });
 
-//DELETE -   confirmation (trash can button submitted - this will create a modal asking user to confirm)
+//DELETE Issue -   confirmation (trash can button submitted - this will create a modal asking user to confirm)
 $(document).on("click", ".delete-button", function(event){
 	let issueId = $(this).val();
 	getDeleteConfirm(issueId);
 });
-//DELETE - executed (modal confirmation after trashcan button pushed)
+//DELETE Issue - executed (modal confirmation after trashcan button pushed)
 function getDeleteConfirm(issueId){
 	$('#delete-confirm-modal').modal('show');
 	$(document).on("click", "#delete-confirm-button", function(event){
@@ -452,11 +527,12 @@ function convertDate(originalDate){
 
 // Weeks Open = Current Date - Date Ticket Opened. First converts to milliseconds, then turns the difference into weeks
 function calcWeeksOpen(openDate){
-	const todaysDate = new Date();
-	const todayMs = todaysDate.getTime();
+	const todayLongDate = new Date(); //gets todays date
+	const todaysDate = convertDate(todayLongDate) //converts to same format as incoming date
+	const todayMs = Date.parse(todaysDate); //turn into ms
 	const openDateMs = Date.parse(openDate);
 	const diffMs = todayMs - openDateMs;
-	const weeksOpen = Math.ceil(diffMs / 604800000); //ms in a week
+	const weeksOpen = Math.ceil(diffMs / 604800000); //ms to week; user request to roundup
 	return weeksOpen;
 };
 // Total Potential Loss = Weekly Potential Loss x Weeks Open
@@ -475,6 +551,52 @@ function calcTotalCost(totalLoss, teamCostTotal){
 	return totalCost;
 };
 
+//Calculates fields not in database and returns data to propagate rows
+function calcFields(res){
+	for (let i = 0; i < res.length; i++){
+		const simpleDate = convertDate(res[i].ticketOpenDate);
+		const weeksOpen = calcWeeksOpen(simpleDate);
+		const totalLoss = calcTotalPotentialLoss(res[i].weeklyPotentialLoss, weeksOpen);
+		const totalTeamCost = calcTotalTeamCost(res[i].weeklyTeamCost, weeksOpen);
+		const totalOverallCost = calcTotalCost(totalLoss, totalTeamCost);
+		const customerImpactHtml = createCustImpactHtml(res[i].customerImpact);
+        const affectedTeamsHtml = createTeamsHtml(res[i].affectedTeams);
+        const actions = `
+            <button type="button" class="btn edit-button action-button" value="${res[i].id}"><span class="fas fa-pencil-alt" title="Edit"></span></button>
+            <button type="button" class="btn delete-button action-button" value="${res[i].id}"><span class="fas fa-trash-alt" title="Delete"></span></button>`;
+		
+		function createCustImpactHtml(issueDetails){
+			let custImpactHtml="";
+			for (let t = 0; t<issueDetails.length; t++){
+				custImpactHtml = custImpactHtml +`<p>${issueDetails[t]}</p>`;
+			};
+			return custImpactHtml;
+		};
+		
+		function createTeamsHtml(issueDetails){
+			let supportTeamHtml="";
+			for (let t = 0; t<issueDetails.length; t++){
+				supportTeamHtml = supportTeamHtml +`<p>${issueDetails[t]}</p>`;
+			};
+			return supportTeamHtml;
+        };
+
+        //update object to include calculated values 
+        res[i].ticketOpenDate = simpleDate;
+        res[i].weeksOpen = weeksOpen;
+        res[i].totalLoss = totalLoss;
+        res[i].totalTeamCost = totalTeamCost;
+        res[i].totalOverallCost = totalOverallCost;
+        res[i].customerImpact = customerImpactHtml;
+        res[i].affectedTeams = affectedTeamsHtml;
+        res[i].actions = actions;
+        res[i].expand = "";
+    };
+    loadTable(res);
+    console.log(res)
+
+};
+
 //--## API CALLS --
 
 //calls all issues in DB
@@ -484,7 +606,7 @@ function getAllIssues(){
         url: issuesAPIUrl,
         headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` },
 		success: function (res) {
-			loadIssue(res);
+			calcFields(res);
 		},
 		contentType : "application/json"
 	});
@@ -541,9 +663,9 @@ function updateIssue(updatedIssueData,issueId){
 		},
 		error: function(res){
 			console.log(res);
-			// if (res.responseJSON.message == "Duplicate Ticket Number"){
-			// 	validationError("dup-ticket-number")
-			// };
+			if (res.responseJSON.message == "Duplicate Ticket Number"){
+				validationError("dup-ticket-number", )
+			};
 		},
 		dataType: "json",
 		contentType : "application/json"
