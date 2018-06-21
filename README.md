@@ -18,68 +18,68 @@ Create your own login or use the demo login:
 ### Login Page
 
 Mobile
-![Login Mobile]("/screenshots/login-sm.png)
+![Login Mobile](https://github.com/SKMCanedy/sting/blob/master/screenshots/login-sm.png)
 
 
 Desktop
-![Login Desktop]("./screenshots/login-full.png)
+![Login Desktop](https://github.com/SKMCanedy/sting/blob/master/screenshots/login-full.png)
 
 
 ### Tracking Dashboard Page
 
 Mobile
-![Dashboard Mobile]("./screenshots/dashboard-sm.png)
+![Dashboard Mobile](https://github.com/SKMCanedy/sting/blob/master/screenshots/dashboard-sm.png)
 
 
 Tablet
-![Dashboard Tablet]("./screenshots/dashboard-mid.png)
+![Dashboard Tablet](https://github.com/SKMCanedy/sting/blob/master/screenshots/dashboard-mid.png)
 
 
 Desktop
-![Dashboard Desktop]("./screenshots/dashboard-full.png)
+![Dashboard Desktop](https://github.com/SKMCanedy/sting/blob/master/screenshots/dashboard-full.png)
 
 
 ## Built With
-*HTML
+* HTML
 
-*CSS
+* CSS
 
-*Javascript
+* Javascript
 
-*JQuery
+* JQuery
 
-*Bootstrap
+* Bootstrap
 
-*FooTable
+* FooTable
 
-*Node.js/Express
+* Node.js/Express
 
-*Mongoose
+* Mongoose
 
 ### Live Environment
-*Heroku
+* Heroku
 
-*MLab
+* MLab
 
-*Travis-ci
+* Travis-ci
 
 ### Testing
-*Mocha
+* Mocha
 
-*Chai
+* Chai
 
 ## Future Features
--Administrative Area
+* Administrative Area
 
-  -Manage team values
+  * Manage team values
 
-  -Manage users
+  * Manage users
 
-*Close/Open status
+* Close/Open status
 
-*Exportable Reporting
+* Exportable Reporting
 
-*Summary Table
+* Summary Table
 
 ## Author
 Shannon Canedy
