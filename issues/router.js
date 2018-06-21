@@ -77,7 +77,7 @@ router.put('/:id', jwtAuth, (req,res) => {
             return res.send(issue);
         }
 
-        if (err.code == 11000){
+        if (err && err.code == 11000){
             return res.status(500).json({message: 'Duplicate Ticket Number'});
         } 
     })
