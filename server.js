@@ -8,7 +8,7 @@ const morgan = require("morgan");
 const bodyParser = require("body-parser");
 
 const app = express();
-const router = express.Router(); //is this needed in the server.js file?
+const router = express.Router();
 const passport = require('passport');
 const jsonParser = bodyParser.json();
 
@@ -51,9 +51,9 @@ app.use('*', (req, res) => {
 
 let server;
 
-function runServer() {
+function runServer(databaseUrl) {
   return new Promise((resolve, reject) => {
-    mongoose.connect(DATABASE_URL || TEST_DATABASE_URL, err => {
+    mongoose.connect(databaseUrl, err => {
       if (err) {
         return reject(err);
       }
@@ -85,7 +85,7 @@ function closeServer() {
 }
 
 if (require.main === module) {
-  runServer().catch(err => console.error(err));
+  runServer(DATABASE_URL).catch(err => console.error(err));
 }
 
 module.exports = { app, runServer, closeServer };
