@@ -123,7 +123,7 @@ function loadPage(){
 //loads dashboard table; called after app gets issues and calculates additional values
 
 function loadTable(tableRows){
-    FooTable.init('.table', {
+    FooTable.init(".table", {
         "columns": tableHeaders,
 		"rows": tableRows,
 		"breakpoints": {
@@ -207,7 +207,7 @@ $("#issue-details").submit(function(event){
 
 	function getCustImpactDetails(){
 		let custImpactArray=[];
-		$('.cust-impact:checked').each(function(){
+		$(".cust-impact:checked").each(function(){
 			custImpactArray.push($(this).val());
 		});
 		return custImpactArray;
@@ -215,7 +215,7 @@ $("#issue-details").submit(function(event){
 
 	function getAffectedTeamData(){
 		let teamArray=[];
-		$('.affected-teams:checked').each(function(){
+		$(".affected-teams:checked").each(function(){
 			teamArray.push($(this).val());
 		});
 		return teamArray;
@@ -228,19 +228,19 @@ $("#issue-details").submit(function(event){
 		validationError("customer-impact");		
 	} else if (affectedTeamData.length === 0) {
 		validationError("affected-teams");
-	} else if ($('.dev-team').val() === "default"){
+	} else if ($(".dev-team").val() === "default"){
 		validationError("dev-team");
 	} else {
 		let newIssueData = JSON.stringify(
 			{ 
-			ticketNumber: $('#new-ticket-num').val(),
-			issueSummary: $('#new-summary').val(),
+			ticketNumber: $("#new-ticket-num").val(),
+			issueSummary: $("#new-summary").val(),
 			customerImpact: custImpactData,
-			ticketOpenDate: $('#new-ticket-date').val(),
-			issueFrequency: parseInt($('#new-incident-count').val()),
+			ticketOpenDate: $("#new-ticket-date").val(),
+			issueFrequency: parseInt($("#new-incident-count").val()),
 			affectedTeams: affectedTeamData,
-			assignedDevTeam: $('.dev-team').val(),
-			weeklyPotentialLoss: parseInt($('#new-weekly-loss').val())
+			assignedDevTeam: $(".dev-team").val(),
+			weeklyPotentialLoss: parseInt($("#new-weekly-loss").val())
 			});
 		postNewIssue(newIssueData);
 	}
@@ -402,7 +402,7 @@ function editIssueModal (issueInfo){
 	
 
 	function showModal(){
-		$('#edit-issue-modal').modal('show');
+		$("#edit-issue-modal").modal("show");
 	};
 
 	loadEditModalHtml();
@@ -437,7 +437,7 @@ $(document).on("click", "#edit-confirm-button", function(event){
 
 	function getCustImpactDetails(){
 		let custImpactArray=[];
-		$('.edit-cust-impact:checked').each(function(){
+		$(".edit-cust-impact:checked").each(function(){
 			custImpactArray.push($(this).val());
 		});
 		return custImpactArray;
@@ -445,7 +445,7 @@ $(document).on("click", "#edit-confirm-button", function(event){
 
 	function getAffectedTeamData(){
 		let teamArray=[];
-		$('.edit-affected-teams:checked').each(function(){
+		$(".edit-affected-teams:checked").each(function(){
 			teamArray.push($(this).val());
 		});
 		return teamArray;
@@ -454,31 +454,31 @@ $(document).on("click", "#edit-confirm-button", function(event){
 	validationError("clear");
 
 	//Will need to clean up in phase two. Possible put into object literal and iterate over it
-	if ($('#edit-ticket-num').val() === ""){
+	if ($("#edit-ticket-num").val() === ""){
 		validationError("missing-ticket-number");
-	} else if ($('#edit-summary').val() === ""){
+	} else if ($("#edit-summary").val() === ""){
 		validationError("issue-summary");
 	} else if (custImpactData.length === 0 ){
 		validationError("customer-impact");		
-	} else if ($('#edit-incident-count').val() === ""){
+	} else if ($("#edit-incident-count").val() === ""){
 		validationError("frequency");
 	} else if (affectedTeamData.length === 0) {
 		validationError("affected-teams");
-	} else if ($('.edit-dev-team').val() === "default"){
+	} else if ($(".edit-dev-team").val() === "default"){
 		validationError("dev-team");
-	} else if ($('#edit-weekly-loss').val() === ""){
+	} else if ($("#edit-weekly-loss").val() === ""){
 		validationError("weekly-loss");
 	} else {
 		let editIssueData = JSON.stringify(
 			{ 
-			ticketNumber: $('#edit-ticket-num').val(),
-			issueSummary: $('#edit-summary').val(),
+			ticketNumber: $("#edit-ticket-num").val(),
+			issueSummary: $("#edit-summary").val(),
 			customerImpact: custImpactData,
-			ticketOpenDate: $('#edit-ticket-date').val(),
-			issueFrequency: parseInt($('#edit-incident-count').val()),
+			ticketOpenDate: $("#edit-ticket-date").val(),
+			issueFrequency: parseInt($("#edit-incident-count").val()),
 			affectedTeams: affectedTeamData,
-			assignedDevTeam: $('.edit-dev-team').val(),
-			weeklyPotentialLoss: parseInt($('#edit-weekly-loss').val())
+			assignedDevTeam: $(".edit-dev-team").val(),
+			weeklyPotentialLoss: parseInt($("#edit-weekly-loss").val())
 			});
 		updateIssue(editIssueData,issueId);
 	}
@@ -491,11 +491,11 @@ $(document).on("click", ".delete-button", function(event){
 });
 //DELETE Issue - executed (modal confirmation after trashcan button pushed)
 function getDeleteConfirm(issueId){
-	$('#delete-confirm-modal').modal('show');
+	$("#delete-confirm-modal").modal("show");
 	$(document).on("click", "#delete-confirm-button", function(event){
 		event.preventDefault();
 		deleteIssue(issueId);
-		$('#delete-confirm-modal').modal('hide');
+		$("#delete-confirm-modal").modal("hide");
 		location.reload(true);
 	});
 }
@@ -503,7 +503,7 @@ function getDeleteConfirm(issueId){
 //LOG OUT
 
 $("#log-out-button").click(function(){
-	localStorage.setItem('token', undefined);
+	localStorage.setItem("token", undefined);
 	window.location.replace("index.html");
 });
 
@@ -512,7 +512,7 @@ $("#log-out-button").click(function(){
 //Convert full date to simple date
 function convertDate(originalDate){
 	let gmtDate = new Date(originalDate);
-	let simpleDate = gmtDate.toLocaleDateString('en-US');
+	let simpleDate = gmtDate.toLocaleDateString("en-US");
 	return simpleDate;
 };
 
@@ -593,7 +593,7 @@ function getAllIssues(){
 	$.ajax({
 		type: "GET",
         url: issuesAPIUrl,
-        headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` },
+        headers: { "Authorization": `Bearer ${localStorage.getItem("token")}` },
 		success: function (res) {
 			calcFields(res);
 		},
@@ -606,7 +606,7 @@ function getSingleIssue(issueId){
 	$.ajax({
 		type: "GET",
         url: issuesAPIUrl + issueId,
-        headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` },
+        headers: { "Authorization": `Bearer ${localStorage.getItem("token")}` },
 		success: function (res) {
 			editIssueModal(res);
 		},
@@ -620,11 +620,11 @@ function postNewIssue(newIssueData){
         type: "POST",
         data: newIssueData,
         url: issuesAPIUrl,
-        headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` },
+        headers: { "Authorization": `Bearer ${localStorage.getItem("token")}` },
 		success: function(res){
-			$('#issue-details').modal('hide');
-			$('#issue-details').on('hidden.bs.modal', function () {
-				$(this).find('form').trigger('reset');
+			$("#issue-details").modal("hide");
+			$("#issue-details").on("hidden.bs.modal", function () {
+				$(this).find("form").trigger("reset");
 			});
 			location.reload();
 		},
@@ -645,9 +645,9 @@ function updateIssue(updatedIssueData,issueId){
         type: "PUT",
         data: updatedIssueData,
         url: issuesAPIUrl + issueId,
-        headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` },
+        headers: { "Authorization": `Bearer ${localStorage.getItem("token")}` },
 		success: function(res){
-			$('#edit-issue-modal').modal('hide');
+			$("#edit-issue-modal").modal("hide");
 			location.reload();
 		},
 		error: function(res){
@@ -665,7 +665,7 @@ function deleteIssue(deletedIssueId){
 	$.ajax({
         type: "DELETE",
         url: issuesAPIUrl + deletedIssueId,
-        headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` },
+        headers: { "Authorization": `Bearer ${localStorage.getItem("token")}` },
 		dataType: "json",
 		contentType : "application/json"
 	});

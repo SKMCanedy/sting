@@ -1,19 +1,19 @@
 "use strict";
 const express = require("express");
 const bodyParser = require("body-parser");
-const passport = require('passport');
+const passport = require("passport");
 
 
 const {Issue} = require("./models");
 
 
 const router = express.Router();
-const jwtAuth = passport.authenticate('jwt', { session: false });
+const jwtAuth = passport.authenticate("jwt", { session: false });
 
 
 //-- CRUD Routes --
 
-router.get('/', jwtAuth, (req,res) => {
+router.get("/", jwtAuth, (req,res) => {
     console.log("GET all route accessed");
     Issue
     .find()
@@ -23,7 +23,7 @@ router.get('/', jwtAuth, (req,res) => {
         });
 });
 
-router.get('/:id', jwtAuth, (req,res) => {
+router.get("/:id", jwtAuth, (req,res) => {
     console.log("GET single route accessed");
     Issue
     .findById(req.params.id)
@@ -33,7 +33,7 @@ router.get('/:id', jwtAuth, (req,res) => {
     });
 });
 
-router.post('/', jwtAuth, (req,res) => {
+router.post("/", jwtAuth, (req,res) => {
     console.log("POST Route accessed");
     Issue
     .create({
@@ -53,10 +53,10 @@ router.post('/', jwtAuth, (req,res) => {
         issue => res.status(201).json(issue.serialize()))
     .catch(function(err){
         if (err.code == 11000){
-            res.status(500).json({message: 'Duplicate Ticket Number'});
+            res.status(500).json({message: "Duplicate Ticket Number"});
         } 
         else {
-            res.status(500).json({message: 'Internal server error'});
+            res.status(500).json({message: "Internal server error"});
         }
     });
 });
@@ -64,7 +64,7 @@ router.post('/', jwtAuth, (req,res) => {
 //assumes the client will be providing all required frontend fields. Future versions will put in logic
 //to address partial updates so this can be outsourced to other frontends
 
-router.put('/:id', jwtAuth, (req,res) => {
+router.put("/:id", jwtAuth, (req,res) => {
     console.log("PUT Route accessed");
     let issueNewDetails = req.body;
     issueNewDetails.weeklyTeamCost = getWeeklyTeamCost(req.body.affectedTeams,req.body.issueFrequency);
@@ -78,12 +78,12 @@ router.put('/:id', jwtAuth, (req,res) => {
         }
 
         if (err && err.code == 11000){
-            return res.status(500).json({message: 'Duplicate Ticket Number'});
+            return res.status(500).json({message: "Duplicate Ticket Number"});
         } 
     })
 });
 
-router.delete('/:id', jwtAuth, (req,res)=> {
+router.delete("/:id", jwtAuth, (req,res)=> {
     console.log("DELETE Route accessed");
     Issue.findByIdAndRemove(req.params.id, () =>{
         res.status(200).end();

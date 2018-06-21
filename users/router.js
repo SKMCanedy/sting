@@ -8,7 +8,7 @@ const {User} = require("./models");
 const router = express.Router();
 const jsonParser = bodyParser.json();
 
-router.post('/', jsonParser, (req, res) => {
+router.post("/", jsonParser, (req, res) => {
     //validation schema
     const userSchema = {
         firstName: Joi.string().min(2).trim().required(),
@@ -57,7 +57,7 @@ router.post('/', jsonParser, (req, res) => {
             return res.status(201).json(user.serialize());
         })
         .catch(err => {
-            if (err.reason === 'ValidationError'){
+            if (err.reason === "ValidationError"){
                 return res.status(err.code).json(err);
             }
             res.status(500).json({code: 500, message: "Internal Server Error"});

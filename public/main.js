@@ -9,13 +9,13 @@ $("#new-user-submit").submit(function(event){
 	console.log("New user form submitted");
 	clearModalAlertHtml();
 
-	let submittedUn = $('#acct-create-username').val();
-	let submittedPw = $('#acct-create-password').val()
+	let submittedUn = $("#acct-create-username").val();
+	let submittedPw = $("#acct-create-password").val()
 
 	let formDataJson = JSON.stringify(
 		{ 
-		firstName: $('#acct-create-firstName').val(),
-		lastName: $('#acct-create-lastName').val(),
+		firstName: $("#acct-create-firstName").val(),
+		lastName: $("#acct-create-lastName").val(),
 		username: submittedUn,
 		password: submittedPw
 		});
@@ -56,8 +56,8 @@ $("#login-form").submit(function(event){
 	
 	let loginDataJson = JSON.stringify(
 		{ 
-		username: $('#login-username').val(),
-		password: $('#login-pw').val()
+		username: $("#login-username").val(),
+		password: $("#login-pw").val()
 		});
 	
 	clearUnauthorizedHtml();
@@ -67,7 +67,7 @@ $("#login-form").submit(function(event){
 		url: loginUrl,
 		data: loginDataJson,
 		success: function(res){
-			localStorage.setItem('token', res.authToken);
+			localStorage.setItem("token", res.authToken);
 			window.location.replace("dashboard.html");
 		},
 		error: function(res){
@@ -126,16 +126,16 @@ function insertInvalidPwLengthHtml(){
 }
 
 function hideNewUserModal(){
-	$('#account-create').modal('hide');
-	$('#account-create').on('hidden.bs.modal', function () {
-		$(this).find('form').trigger('reset');
+	$("#account-create").modal("hide");
+	$("#account-create").on("hidden.bs.modal", function () {
+		$(this).find("form").trigger("reset");
 	});
 }
 
 function showUserCreateSuccess(){
-	$('#account-success').modal('show');
+	$("#account-success").modal("show");
 }
 
 function clearLoginForm(){
-	$('#login-form').trigger('reset');
+	$("#login-form").trigger("reset");
 }

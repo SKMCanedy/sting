@@ -15,15 +15,15 @@ const UserSchema = mongoose.Schema({
       type: String,
       required: true
     },
-    firstName: {type: String, default: ''},
-    lastName: {type: String, default: ''}
+    firstName: {type: String, default: ""},
+    lastName: {type: String, default: ""}
   });
 
   UserSchema.methods.serialize = function() {
     return {
-      username: this.username || '',
-      firstName: this.firstName || '',
-      lastName: this.lastName || ''
+      username: this.username || "",
+      firstName: this.firstName || "",
+      lastName: this.lastName || ""
     };
   };
   
@@ -35,6 +35,6 @@ const UserSchema = mongoose.Schema({
     return bcrypt.hash(password, 10);
   };
   
-  const User = mongoose.model('User', UserSchema);
+  const User = mongoose.model("User", UserSchema);
   
   module.exports = {User};

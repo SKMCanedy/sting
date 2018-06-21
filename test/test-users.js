@@ -1,14 +1,14 @@
 "use strict";
-require('dotenv').config();
+require("dotenv").config();
 
 const chai = require("chai");
 const chaiHttp = require("chai-http");
 const faker = require("faker");
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
-const { TEST_DATABASE_URL } = require('../config');
-const {app, runServer, closeServer} = require('../server');
-const {User} = require('../users');
+const { TEST_DATABASE_URL } = require("../config");
+const {app, runServer, closeServer} = require("../server");
+const {User} = require("../users");
 
 const expect = chai.expect;
 
@@ -35,7 +35,7 @@ function generateUserData(num){
 }
 
 function tearDownDb() {
-    console.warn('Deleting database');
+    console.warn("Deleting database");
     return mongoose.connection.dropDatabase();
 }
 

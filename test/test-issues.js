@@ -1,14 +1,14 @@
 "use strict";
 
-const {app, runServer, closeServer} = require('../server');
-const {User} = require('../users');
-const {Issue} = require('../issues');
+const {app, runServer, closeServer} = require("../server");
+const {User} = require("../users");
+const {Issue} = require("../issues");
 const { TEST_DATABASE_URL } = require("../config")
 
 const chai = require("chai");
 const chaiHttp = require("chai-http");
 const faker = require("faker");
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 
 const expect = chai.expect;
@@ -59,16 +59,16 @@ function seedIssueData() {
 
 describe("issues", function() {
   const testUser = {
-    username: 'user_test_issues',
-    password: '123123',
-    firstName: '1',
-    lastName: '2'
+    username: "user_test_issues",
+    password: "123123",
+    firstName: "1",
+    lastName: "2"
   };
   let authToken = null;
 
   before(() => {
     return runServer(TEST_DATABASE_URL)
-      .then(() => User.hashPassword('123123'))
+      .then(() => User.hashPassword("123123"))
       .then(hash => User.create({
         ...testUser,
         password: hash
@@ -77,8 +77,8 @@ describe("issues", function() {
         .request(app)
         .post("/api/auth/login")
         .send({
-          username: 'user_test_issues',
-          password: '123123'
+          username: "user_test_issues",
+          password: "123123"
         }))
       .then(res => {
         authToken = res.body.authToken
@@ -94,7 +94,7 @@ describe("issues", function() {
   })
 
   after(() => {
-    return User.findOneAndRemove({ username: 'user_test_issues'}).then(() => {
+    return User.findOneAndRemove({ username: "user_test_issues"}).then(() => {
       closeServer();
     })
   });
@@ -104,7 +104,7 @@ describe("issues", function() {
             return chai
             .request(app)
             .get("/api/issues")
-            .set('Authorization', `Bearer ${authToken}`)
+            .set("Authorization", `Bearer ${authToken}`)
             .send()
             .then(res => {
                 expect(res).to.have.status(200);
@@ -117,7 +117,7 @@ describe("issues", function() {
             return chai
             .request(app)
             .post("/api/issues")
-            .set('Authorization', `Bearer ${authToken}`)
+            .set("Authorization", `Bearer ${authToken}`)
             .send(sampleIssue)
             .then((res)=>{
                 expect(res).to.have.status(201);
@@ -133,7 +133,7 @@ describe("issues", function() {
             return chai
             .request(app)
             .put(`/api/issues/${singleIssue.id}`)
-            .set('Authorization', `Bearer ${authToken}`)
+            .set("Authorization", `Bearer ${authToken}`)
             .send(sampleIssue)
             .then((res)=>{
                 expect(res).to.have.status(200);
@@ -150,7 +150,7 @@ describe("issues", function() {
             return chai
             .request(app)
             .delete(`/api/issues/${singleIssue.id}`)
-            .set('Authorization', `Bearer ${authToken}`)
+            .set("Authorization", `Bearer ${authToken}`)
             .send()
             .then((res)=>{
                 expect(res).to.have.status(200);
