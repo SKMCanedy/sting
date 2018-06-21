@@ -34,6 +34,9 @@ Create your own login or use the demo login:
 
 ![Dashboard Mobile](https://github.com/SKMCanedy/sting/blob/master/screenshots/dashboard-sm.png)
 
+#### Mobile with expanded issue
+
+![Dashboard Mobile Expanded Issue](/screenshots/expanded-details-sm.png)
 
 #### Tablet
 
@@ -48,6 +51,8 @@ Create your own login or use the demo login:
 * Administrative Area
 
   * Manage team values
+
+  * Add/remove impacts and teams
 
   * Manage users
 
