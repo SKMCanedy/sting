@@ -1,30 +1,19 @@
 "use strict";
 
-require('dotenv').config();
+const {app, runServer, closeServer} = require('../server');
+const {User} = require('../users');
+const {Issue} = require('../issues');
+const { TEST_DATABASE_URL } = require("../config")
 
 const chai = require("chai");
 const chaiHttp = require("chai-http");
 const faker = require("faker");
 const mongoose = require('mongoose');
-const jwt = require('jsonwebtoken');
 
-const { TEST_DATABASE_URL } = require('../config');
-const {app, runServer, closeServer} = require('../server');
-const {Issue} = require('../issues');
 
 const expect = chai.expect;
 
 chai.use(chaiHttp);
-
-function seedData(){
-    const testIssueData=[];
-
-    for (let i=1; i<=10; i++){
-        testIssueData.push(generateIssueData(i));
-    }
-    console.log(testIssueData);
-    return Issue.insertMany(testIssueData);
-}
 
 function generateIssueData(num){
     let randTicketNum= faker.random.word() + num;
@@ -44,142 +33,129 @@ function generateIssueData(num){
 
 }
 
-function tearDownDb() {
-    console.warn('Deleting database');
-    return mongoose.connection.dropDatabase();
+const sampleIssue=
+    {
+        "ticketNumber": faker.random.number(10000),
+        "issueSummary": "Testing",
+        "customerImpact":["Testing1"],
+        "ticketOpenDate":"02/12/2018",
+        "issueFrequency":10,
+        "affectedTeams":["Testing1"],
+        "assignedDevTeam": "Testing",
+        "weeklyPotentialLoss":100,
+        "weeklyTeamCost":100,
+        "weeklyTotalCost":100,
+        "modifiedBy":"test"
+    }
+
+function seedIssueData() {
+    const seedData=[];
+    for (let i=1; i<=10; i++) {
+        seedData.push(generateIssueData(i));
+    }
+
+    return Issue.insertMany(seedData);
 }
 
+describe("issues", function() {
+  const testUser = {
+    username: 'user_test_issues',
+    password: '123123',
+    firstName: '1',
+    lastName: '2'
+  };
+  let authToken = null;
 
-describe("Issues API", function() {
+  before(() => {
+    return runServer(TEST_DATABASE_URL)
+      .then(() => User.hashPassword('123123'))
+      .then(hash => User.create({
+        ...testUser,
+        password: hash
+      }))
+      .then(() => chai
+        .request(app)
+        .post("/api/auth/login")
+        .send({
+          username: 'user_test_issues',
+          password: '123123'
+        }))
+      .then(res => {
+        authToken = res.body.authToken
+      });
+  });
 
-    before(function() {
-        return runServer(TEST_DATABASE_URL);
-    });
+  beforeEach(()=>{
+    return seedIssueData();
+  })
 
-    beforeEach(function(){
-        return seedData();
+  afterEach(()=>{
+    return mongoose.connection.dropDatabase();
+  })
+
+  after(() => {
+    return User.findOneAndRemove({ username: 'user_test_issues'}).then(() => {
+      closeServer();
     })
+  });
 
-    afterEach(function() { 
-        // return tearDownDb();
-    });
-    
-    after(function() {
-        return closeServer();
-    });
-
-    describe("GET", function(){
-        it("Should return all existing issues", function(){
+    describe("GET Route", function(){
+        it("should return all issues", () => {
             return chai
             .request(app)
-            .get("/api/issues/")
-            .set('some_custom_attribute', 'some_value')
-            .then((res)=>{
-                // console.log(res)
+            .get("/api/issues")
+            .set('Authorization', `Bearer ${authToken}`)
+            .send()
+            .then(res => {
                 expect(res).to.have.status(200);
+            })
+        });
+        })
+
+    describe("POST Route", function(){
+        it("Should add a new issue", function(){
+            return chai
+            .request(app)
+            .post("/api/issues")
+            .set('Authorization', `Bearer ${authToken}`)
+            .send(sampleIssue)
+            .then((res)=>{
+                expect(res).to.have.status(201);
                 expect(res).to.be.json;
-                expect(res.body).to.be.a('array');
-                expect(res.body.length).to.be.above(0);
-                res.body.forEach(function(item) {
-                  expect(item).to.be.a('object');
-                  expect(item).to.have.all.keys(
-                    'id', 
-                    'ticketNumber', 
-                    'issueSummary', 
-                    'ticketOpenDate',
-                    'issueFrequency',
-                    'affectedTeams',
-                    'assignedDevTeam',
-                    'weeklyPotentialLoss',
-                    'weeklyTeamCost',
-                    'weeklyTotalCost',
-                    'modifiedBy'
-                    );
-                }); 
             })
         })
     });
+
+    describe("PUT Route", function(){
+
+        it("Should update an issue", function(){
+            return Issue.findOne().then((singleIssue)=>{
+            return chai
+            .request(app)
+            .put(`/api/issues/${singleIssue.id}`)
+            .set('Authorization', `Bearer ${authToken}`)
+            .send(sampleIssue)
+            .then((res)=>{
+                expect(res).to.have.status(200);
+                expect(res).to.be.json;
+            })
+        })
+        })
+    })
+
+    describe("DELETE Route", function(){
+
+        it("Should delete an issue", function(){
+            return Issue.findOne().then((singleIssue)=>{
+            return chai
+            .request(app)
+            .delete(`/api/issues/${singleIssue.id}`)
+            .set('Authorization', `Bearer ${authToken}`)
+            .send()
+            .then((res)=>{
+                expect(res).to.have.status(200);
+            })
+        })
+        })
+    })
 });
-
-//     describe("POST", function(){
-//         it("Should add a new issue", function(){
-//             return chai
-//             .request(app)
-//             .post("/api/issues/")
-//             .send({
-//                 "ticketNumber": ticketNumber1,
-//                 "issueSummary": issueSummary1,
-//                 "customerImpact": customerImpact1,
-//                 "ticketOpenDate": ticketOpenDate1,
-//                 "issueFrequency": issueFrequency1,
-//                 "affectedTeams": affectedTeams1,
-//                 "assignedDevTeam": assignedDevTeam1,
-//                 "weeklyPotentialLoss": weeklyPotentialLoss
-//             })
-//             .then((res)=>{
-//                 expect(res).to.have.status(201);
-//                 expect(res).to.be.json;
-//                 expect(item).to.have.all.keys(
-//                     'id', 
-//                     'ticketNumber', 
-//                     'issueSummary', 
-//                     'ticketOpenDate',
-//                     'issueFrequency',
-//                     'affectedTeams',
-//                     'assignedDevTeam',
-//                     'weeklyPotentialLoss',
-//                     'weeklyTeamCost',
-//                     'weeklyTotalCost',
-//                     'modifiedBy'
-//                 );
-//             })
-//         })
-//     });
-
-//     describe("PUT", function(){
-//         it("Should update an issue", function(){
-//             return chai
-//             .request(app)
-//             .post("/api/issues/id")//need to update id based on whether this is pre-seeded data or data from above
-//             .send({
-//                 "ticketNumber": ticketNumber1,
-//                 "issueSummary": issueSummary1 + " Updated",
-//                 "customerImpact": customerImpact1,
-//                 "ticketOpenDate": ticketOpenDate1,
-//                 "issueFrequency": issueFrequency1,
-//                 "affectedTeams": affectedTeams1,
-//                 "assignedDevTeam": assignedDevTeam1,
-//                 "weeklyPotentialLoss": weeklyPotentialLoss
-//             })
-//             .then((res)=>{
-//                 expect(res).to.have.status(200);
-//                 expect(res).to.be.json;
-//                 expect(item).to.have.all.keys(
-//                     'id', 
-//                     'ticketNumber', 
-//                     'issueSummary', 
-//                     'ticketOpenDate',
-//                     'issueFrequency',
-//                     'affectedTeams',
-//                     'assignedDevTeam',
-//                     'weeklyPotentialLoss',
-//                     'weeklyTeamCost',
-//                     'weeklyTotalCost',
-//                     'modifiedBy'
-//                 );
-//             })
-//         })
-
-//     });
-
-//     describe("DELETE", function(){
-//         it("Should delete an issue", function(){
-//             return chai
-//             .request(app)
-//             .delete("/api/issues/id")//need to update id based on whether this is pre-seeded data or data from above
-//             .then((res)=>{
-//                 expect(res).to.have.status(200);
-//             })
-//         })
-//     })
-// });

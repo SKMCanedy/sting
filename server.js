@@ -8,7 +8,7 @@ const morgan = require("morgan");
 const bodyParser = require("body-parser");
 
 const app = express();
-const router = express.Router(); //is this needed in the server.js file?
+const router = express.Router();
 const passport = require('passport');
 const jsonParser = bodyParser.json();
 

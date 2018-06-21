@@ -14,8 +14,8 @@ router.post('/', jsonParser, (req, res) => {
         firstName: Joi.string().min(2).trim().required(),
         lastName: Joi.string().min(2).trim().required(),
         username: Joi.string().min(3).regex(/^[A-Za-z0-9_]+$/).required(), //no special characters
-        password: Joi.string().min(3).max(72).regex(/^[A-Za-z0-9_!@$]+$/).required()//allows _ ! @ $ as special characters
-    };
+        password: Joi.string().min(3).max(72).regex(/^[A-Za-z0-9_!@$]+$/).required()//allows _ ! @ $ as special characters. pw min length would be increased in prod. keeping short for demo
+};
 
     const userInput = req.body;
     

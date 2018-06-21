@@ -7,17 +7,19 @@ const loginUrl = "/api/auth/login"
 $("#new-user-submit").submit(function(event){
 	event.preventDefault();
 	console.log("New user form submitted");
-	clearDupUserHtml();
+	clearModalAlertHtml();
+
+	let submittedUn = $('#acct-create-username').val();
+	let submittedPw = $('#acct-create-password').val()
 
 	let formDataJson = JSON.stringify(
 		{ 
 		firstName: $('#acct-create-firstName').val(),
 		lastName: $('#acct-create-lastName').val(),
-		username: $('#acct-create-username').val(),
-		password: $('#acct-create-password').val()
+		username: submittedUn,
+		password: submittedPw
 		});
 
-	//put this into a separate function
 	$.ajax({
 		type: "POST",
 		url: newUserUrl,
@@ -31,6 +33,16 @@ $("#new-user-submit").submit(function(event){
 			if (res.responseJSON.message === "Username already taken"){
 				insertDupUserHtml();
 			}
+			if(res.responseJSON.message === `"username" with value "${submittedUn}" fails to match the required pattern: /^[A-Za-z0-9_]+$/`){
+				insertInvalidUsernameHtml();
+			}
+			if(res.responseJSON.message === `"password" with value "${submittedPw}" fails to match the required pattern: /^[A-Za-z0-9_!@$]+$/`){
+				insertInvalidPasswordHtml();
+			}
+			if(res.responseJSON.message === `"password" length must be at least 3 characters long`){
+				insertInvalidPwLengthHtml();
+			}
+
 		},
 		dataType: "json",
 		contentType : "application/json"
@@ -61,7 +73,6 @@ $("#login-form").submit(function(event){
 		error: function(res){
 			console.log(res);
 			if(res.responseText === "Unauthorized"){
-				clearLoginForm();
 				insertUnauthorizedHtml();
 				$("#login-username").focus();
 			}
@@ -81,8 +92,9 @@ function insertDupUserHtml(){
 	);
 }
 
-function clearDupUserHtml(){
+function clearModalAlertHtml(){
 	$("#username-alert").html("");
+	$("#password-alert").html("");
 }
 
 function insertUnauthorizedHtml(){
@@ -95,6 +107,23 @@ function clearUnauthorizedHtml(){
 	$("#login-error").html("");
 }
 
+function insertInvalidUsernameHtml(){
+	$("#username-alert").html(
+		` Only letters and numbers accepted. Please pick another username`
+	);
+}
+
+function insertInvalidPasswordHtml(){
+	$("#password-alert").html(
+		` Invalid characters. Please choose another password that meets the requirements`
+	);
+}
+
+function insertInvalidPwLengthHtml(){
+	$("#password-alert").html(
+		` Password must be at least 3 characters`
+	);
+}
 
 function hideNewUserModal(){
 	$('#account-create').modal('hide');

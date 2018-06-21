@@ -1,8 +1,16 @@
 /* --- General Formatting --- */
 
-body, .btn, .modal-header{
+body, .modal-header{
     font-family: 'Oswald', sans-serif;
     font-size: 1rem;
+}
+
+.btn {
+    font-size: 1.2rem;
+}
+
+header, {
+    font-size: 1.25rem;
 }
 
 .navbar, .btn-primary{
@@ -21,11 +29,11 @@ body, .btn, .modal-header{
 .btn:hover, .btn:focus, .btn:active, .btn.active, .open>.dropdown-toggle.btn{
     color: #000000;
     background-color: #ffc107;
-    border-color: #000000; /*set the color you want here*/
+    border-color: #000000;
 }
 
 .btn-secondary {
-    background-color: rgb(255, 82, 51);
+    background-color: #DF2300;
 }
 
 /* --- Header Formatting --- */
@@ -53,9 +61,8 @@ input.form-control {
 } 
 
 .modal-header {
-    /* color: #ffc107;
-    background-color: #000000; */
     border-color: #000000;
+    font-size: 1.5rem;
 }
 
 /* --- Table Formatting --- */
@@ -64,7 +71,7 @@ input.form-control {
     display: none;
 }
 
-.footable-filtering-search{
+.footable-filtering-search {
     margin: auto;
     padding-top: .5rem;
     padding-bottom: .5rem;
@@ -80,7 +87,7 @@ input.form-control {
 }
 
 td.footable-sortable > span.fooicon, th.footable-sortable > span.fooicon {
-    top: 90%;
+    top: 85%;
 }
 
 .table thead th {
@@ -95,6 +102,18 @@ td.footable-sortable > span.fooicon, th.footable-sortable > span.fooicon {
     size:.1rem;
 }
 
+.table-sm td, .table-sm th {
+    padding: .75rem;
+}
+
+.table-div header{
+    padding: 0px;
+}
+
+.container {
+    max-width: 98%;
+    margin-top: 1%;
+  }
 /* --- Responsive Formatting --- */
 
 /* Extra small devices (phones, 600px and down) */
@@ -104,50 +123,41 @@ td.footable-sortable > span.fooicon, th.footable-sortable > span.fooicon {
 
 /* Small devices (portrait tablets and large phones, 600px and up) */
 @media only screen and (min-width: 600px) {
-    .move-right{
-        float: right;
-    }
 
-    .search-box {
-        float: right;
-        font-size: 1.2rem;
-    }
 } 
 
 /* Medium devices (landscape tablets, 768px and up) */
 @media only screen and (min-width: 768px) {
-    .logo-image{
-        width: 4rem;
+    .footable-filtering-search {
+        margin-left: auto;
+        margin-right: 2px;
     }
-    
-    .logo-text{
-        font-family: 'Covered By Your Grace', cursive;
-        font-size: 3rem;
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+    .logo-image{
+        width: 3.5rem;
     }
 
-    .header-text{
+    .logo-text{
+        font-size: 2.5rem;
+    }
+
+    header {
         font-size: 1.5rem;
     }
 
     th {
-    font-size: 1.1rem;
-    }
-} 
-
-/* Large devices (laptops/desktops, 992px and up) */
-@media only screen and (min-width: 992px) {
-    td {
-        font-size: 1.2rem;
+        font-size: 1.1rem;
     }
 
-    .fooicon-plus{
-        font-size:1rem;
-    }
 } 
 
 /* Extra large devices (large laptops and desktops, 1200px and up) */
 @media only screen and (min-width: 1200px) {
-    .container {
-        max-width: 98%;
-      }
+
+    td {
+        font-size: 1.1rem;
+    }
 }
