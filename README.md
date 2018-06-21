@@ -11,7 +11,6 @@ Create your own login or use the demo login:
 
 
 >Username: testuser
-
 >Password: test
 
 ## Screenshots
@@ -19,25 +18,25 @@ Create your own login or use the demo login:
 ### Login Page
 
 Mobile
-[Login Mobile]("./screenshots/login-sm.png)
+![Login Mobile]("/screenshots/login-sm.png)
 
 
 Desktop
-[Login Desktop]("./screenshots/login-full.png)
+![Login Desktop]("./screenshots/login-full.png)
 
 
 ### Tracking Dashboard Page
 
 Mobile
-[Dashboard Mobile]("./screenshots/dashboard-sm.png)
+![Dashboard Mobile]("./screenshots/dashboard-sm.png)
 
 
 Tablet
-[Dashboard Tablet]("./screenshots/dashboard-mid.png)
+![Dashboard Tablet]("./screenshots/dashboard-mid.png)
 
 
 Desktop
-[Dashboard Desktop]("./screenshots/dashboard-full.png)
+![Dashboard Desktop]("./screenshots/dashboard-full.png)
 
 
 ## Built With
@@ -66,14 +65,15 @@ Desktop
 
 ### Testing
 *Mocha
+
 *Chai
 
 ## Future Features
-*Administrative Area
+-Administrative Area
 
-  *Manage team values
+  -Manage team values
 
-  *Manage users
+  -Manage users
 
 *Close/Open status
 
