@@ -54,21 +54,21 @@ const IssueSchema = mongoose.Schema({
 
   IssueSchema.methods.serialize = function() {
     return {
-        id: this._id || '',
-        ticketNumber: this.ticketNumber || '',
-        issueSummary: this.issueSummary || '',
-        ticketOpenDate: this.ticketOpenDate || '',
-        customerImpact: this.customerImpact || '',
-        issueFrequency: this.issueFrequency || '',
-        affectedTeams: this.affectedTeams || '',
-        assignedDevTeam: this.assignedDevTeam || '',
-        weeklyPotentialLoss: this.weeklyPotentialLoss || '',
-        weeklyTeamCost: this.weeklyTeamCost  || '',
-        weeklyTotalCost: this.weeklyTotalCost  || '',
-        modifiedBy: this.modifiedBy  || ''
+        id: this._id || "",
+        ticketNumber: this.ticketNumber || "",
+        issueSummary: this.issueSummary || "",
+        ticketOpenDate: this.ticketOpenDate || "",
+        customerImpact: this.customerImpact || "",
+        issueFrequency: this.issueFrequency || "",
+        affectedTeams: this.affectedTeams || "",
+        assignedDevTeam: this.assignedDevTeam || "",
+        weeklyPotentialLoss: this.weeklyPotentialLoss || "",
+        weeklyTeamCost: this.weeklyTeamCost  || "",
+        weeklyTotalCost: this.weeklyTotalCost  || "",
+        modifiedBy: this.modifiedBy  || ""
     };
   };
   
-  const Issue = mongoose.model('Issue', IssueSchema);
+  const Issue = mongoose.model("Issue", IssueSchema);
   
   module.exports = {Issue};

@@ -1,9 +1,9 @@
-'use strict';
-const { Strategy: LocalStrategy } = require('passport-local');
-const { Strategy: JwtStrategy, ExtractJwt } = require('passport-jwt');
+"use strict";
+const { Strategy: LocalStrategy } = require("passport-local");
+const { Strategy: JwtStrategy, ExtractJwt } = require("passport-jwt");
 
-const { User } = require('../users/models');
-const { JWT_SECRET } = require('../config');
+const { User } = require("../users/models");
+const { JWT_SECRET } = require("../config");
 
 const localStrategy = new LocalStrategy((username, password, callback) => {
   console.log("localStrategy function accessed");
@@ -13,8 +13,8 @@ const localStrategy = new LocalStrategy((username, password, callback) => {
       user = _user;
       if (!user) {
         return Promise.reject({
-          reason: 'LoginError',
-          message: 'Incorrect username or password'
+          reason: "LoginError",
+          message: "Incorrect username or password"
         });
       }
       return user.validatePassword(password);
@@ -22,14 +22,14 @@ const localStrategy = new LocalStrategy((username, password, callback) => {
     .then(isValid => {
       if (!isValid) {
         return Promise.reject({
-          reason: 'LoginError',
-          message: 'Incorrect username or password'
+          reason: "LoginError",
+          message: "Incorrect username or password"
         });
       }
       return callback(null, user);
     })
     .catch(err => {
-      if (err.reason === 'LoginError') {
+      if (err.reason === "LoginError") {
         return callback(null, false, err);
       }
       return callback(err, false);
@@ -39,8 +39,8 @@ const localStrategy = new LocalStrategy((username, password, callback) => {
 const jwtStrategy = new JwtStrategy(
   {
     secretOrKey: JWT_SECRET,
-    jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme('Bearer'),
-    algorithms: ['HS256']
+    jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme("Bearer"),
+    algorithms: ["HS256"]
   },
   (payload, done) => {
     console.log("jwtStrategy function accessed");
