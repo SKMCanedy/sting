@@ -31,10 +31,33 @@
             </span>
         </nav>
     </header>
+
+<!-- Summary Table -->
+    <div class = "container col-4">
+        <div class="container" id="summary-title">Open Ticket Summary</div>
+        <table class="table summary-table table-bordered">
+            <tr>
+                <th>Weekly Team Costs</th>
+                <th>Weekly Lost Revenue</th>
+                <th>Weekly Total Cost</th>
+                <th>Team Costs Since Reported</th>
+                <th>Lost Revenue Since Reported</th>
+                <th>Total Cost Since Reported</th>
+            </tr>
+            <tr>
+                <td id = "weekly-team"></td>
+                <td id = "weekly-loss"></td>
+                <td id = "weekly-total"></td>
+                <td id = "total-team"></td>
+                <td id = "total-loss"></td>
+                <td id = "overall-cost"></td>
+            </tr>
+        </table>
+    </div>
     
 <!-- Issue Tracker Table--> 
         <div class="container">
-            <table class="table table-hover table-sm" data-sorting="true" data-filtering="true">
+            <table class="table table-hover table-sm main-table" data-sorting="true" data-filtering="true">
             </table>
         </div>
 
