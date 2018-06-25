@@ -123,7 +123,7 @@ function loadPage(){
 //loads dashboard table; called after app gets issues and calculates additional values
 
 function loadTable(tableRows){
-    FooTable.init(".table", {
+    FooTable.init(".main-table", {
         "columns": tableHeaders,
 		"rows": tableRows,
 		"breakpoints": {
@@ -583,9 +583,44 @@ function calcFields(res){
         res[i].actions = actions;
         res[i].expand = "";
     };
-    loadTable(res);
+	loadTable(res);
+	loadSummaryTable(res);
 };
 
+function loadSummaryTable(res){
+	const sumTableData = calcSummary(res);
+
+	$("#weekly-team").html(`$ ${sumTableData.weeklyTeam}`);
+	$("#weekly-loss").html(`$ ${sumTableData.weeklyLoss}`);
+	$("#weekly-total").html(`$ ${sumTableData.weeklyTotal}`);
+	$("#total-team").html(`$ ${sumTableData.totalTeam}`);
+	$("#total-loss").html(`$ ${sumTableData.totalLoss}`);
+	$("#overall-cost").html(`$ ${sumTableData.overallTotal}`);
+
+}
+
+function calcSummary(res){
+	
+	let summaryTotals = {
+		"weeklyTeam": 0,
+		"weeklyLoss": 0,
+		"weeklyTotal": 0,
+		"totalTeam": 0,
+		"totalLoss": 0,
+		"overallTotal": 0
+	}
+
+	for (let i=0; i<res.length; i++){
+		summaryTotals.weeklyTeam += res[i].weeklyTeamCost;
+		summaryTotals.weeklyLoss += res[i].weeklyPotentialLoss;
+		summaryTotals.weeklyTotal += res[i].weeklyTotalCost;
+		summaryTotals.totalTeam += res[i].totalTeamCost;
+		summaryTotals.totalLoss += res[i].totalLoss;
+		summaryTotals.overallTotal += res[i].totalOverallCost;
+	}
+
+	return summaryTotals;
+}
 //--## API CALLS --
 
 //calls all issues in DB

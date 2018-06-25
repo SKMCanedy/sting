@@ -9,7 +9,7 @@ body, .modal-header{
     font-size: 1.2rem;
 }
 
-header, {
+header {
     font-size: 1.25rem;
 }
 
@@ -65,7 +65,28 @@ input.form-control {
     font-size: 1.5rem;
 }
 
-/* --- Table Formatting --- */
+/* Summary Table Formatting */
+
+#summary-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.summary-table {
+    font-size:1rem;
+    width: 60%;
+    margin-left:auto;
+    margin-right:auto;
+    text-align:center;
+}
+
+.summary-table th {
+    background-color: #ffc107;
+}
+
+/* --- Main Table Formatting --- */
 
 .footable-filtering-search .btn.dropdown-toggle {
     display: none;
@@ -90,9 +111,13 @@ td.footable-sortable > span.fooicon, th.footable-sortable > span.fooicon {
     top: 85%;
 }
 
-.table thead th {
+.main-table thead th {
     border-bottom: 2px double #6c6d6e;
 }
+
+/* .main-table .footable-header {
+    background-color: #ffc107;
+} */
 
 .footable-detail-row {
     border-bottom: 2px solid #6c6d6e;
@@ -114,6 +139,8 @@ td.footable-sortable > span.fooicon, th.footable-sortable > span.fooicon {
     max-width: 98%;
     margin-top: 1%;
   }
+
+
 /* --- Responsive Formatting --- */
 
 /* Extra small devices (phones, 600px and down) */
@@ -128,9 +155,8 @@ td.footable-sortable > span.fooicon, th.footable-sortable > span.fooicon {
 
 /* Medium devices (landscape tablets, 768px and up) */
 @media only screen and (min-width: 768px) {
-    .footable-filtering-search {
+    table.footable>thead>tr.footable-filtering>th div.form-group {
         margin-left: auto;
-        margin-right: 2px;
     }
 }
 
@@ -148,7 +174,7 @@ td.footable-sortable > span.fooicon, th.footable-sortable > span.fooicon {
         font-size: 1.5rem;
     }
 
-    th {
+    .main-table th {
         font-size: 1.1rem;
     }
 
